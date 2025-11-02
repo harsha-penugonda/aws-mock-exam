@@ -8,6 +8,8 @@ import {
     BookOpenText,
     Filter,
     Upload,
+    AlertCircle,
+    XCircle,
 } from "lucide-react";
 
 /**
@@ -838,6 +840,7 @@ export default function App() {
     const [started, setStarted] = useState(false);
     const [answers, setAnswers] = useState({}); // id -> Set(optionIds)
     const [imported, setImported] = useState([]);
+    const [showIncorrectOnly, setShowIncorrectOnly] = useState(false);
 
     const bank = useMemo(() => [...SEED_QUESTIONS, ...imported], [imported]);
 
@@ -893,6 +896,19 @@ export default function App() {
             : 0;
         return { answered: answered.length, correct, pct };
     }, [visibleQuestions, answers]);
+
+    // Ensure timer starts automatically when exam starts
+    // But don't auto-start if all questions are already answered (prevents toggle loop when finished)
+    useEffect(() => {
+        if (started && !timerOn && secondsLeft > 0) {
+            const allAnswered =
+                visibleQuestions.length > 0 &&
+                visibleQuestions.every((q) => (answers[q.id] || new Set()).size > 0);
+            if (!allAnswered) {
+                setTimerOn(true);
+            }
+        }
+    }, [started, timerOn, secondsLeft, visibleQuestions, answers]);
 
     function arraysEqual(a, b) {
         if (a.size !== b.size) return false;
@@ -974,6 +990,21 @@ export default function App() {
     const finished =
         secondsLeft === 0 ||
         (score.answered === visibleQuestions.length && visibleQuestions.length > 0);
+
+    // Stop timer automatically when exam is finished (all questions answered)
+    useEffect(() => {
+        if (finished && started && timerOn) {
+            setTimerOn(false);
+        }
+    }, [finished, started, timerOn]);
+
+    const incorrectQuestions = useMemo(() => {
+        if (!finished) return [];
+        return visibleQuestions.filter((q) => {
+            const chosen = Array.from(answers[q.id] || []);
+            return !arraysEqual(new Set(chosen), new Set(q.correctOptionIds));
+        });
+    }, [visibleQuestions, answers, finished]);
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 p-6">
@@ -1302,13 +1333,25 @@ export default function App() {
                                         <span className="font-semibold">{score.answered}</span> /{" "}
                                         {visibleQuestions.length}
                                     </div>
-                                    <div className="text-sm">
-                                        Correct{" "}
-                                        <span className="font-semibold">{score.correct}</span>
-                                    </div>
-                                    <div className="text-sm">
-                                        Score <span className="font-semibold">{score.pct}%</span>
-                                    </div>
+                                    {finished && (
+                                        <>
+                                            <div className="text-sm">
+                                                Correct{" "}
+                                                <span className="font-semibold">
+                                                    {score.correct}
+                                                </span>
+                                            </div>
+                                            <div className="text-sm">
+                                                Score{" "}
+                                                <span className="font-semibold">{score.pct}%</span>
+                                            </div>
+                                        </>
+                                    )}
+                                    {!finished && (
+                                        <div className="text-sm text-slate-500 italic">
+                                            Complete all questions to see your score
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <button
@@ -1330,36 +1373,185 @@ export default function App() {
                         </div>
 
                         {finished && (
-                            <div className="rounded-2xl border shadow-md p-6 space-y-4 bg-white">
-                                <h3 className="text-xl font-semibold">Review & Domain Breakdown</h3>
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    {Object.entries(domainStats).map(([name, s]) => (
-                                        <div key={name} className="rounded-xl border p-4 bg-white">
-                                            <div className="font-medium">{name}</div>
-                                            <div className="w-full bg-slate-200 rounded-full h-2 mt-2">
-                                                <div
-                                                    className="bg-blue-500 h-2 rounded-full transition-all"
-                                                    style={{
-                                                        width: `${
-                                                            s.total
-                                                                ? (s.correct / s.total) * 100
-                                                                : 0
-                                                        }%`,
-                                                    }}
-                                                />
+                            <>
+                                <div className="rounded-2xl border shadow-md p-6 space-y-4 bg-white">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="text-xl font-semibold">
+                                            Review & Domain Breakdown
+                                        </h3>
+                                        {incorrectQuestions.length > 0 && (
+                                            <button
+                                                onClick={() =>
+                                                    setShowIncorrectOnly(!showIncorrectOnly)
+                                                }
+                                                className="px-4 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 flex items-center gap-2 transition-colors"
+                                            >
+                                                {showIncorrectOnly ? (
+                                                    <>
+                                                        <XCircle className="w-4 h-4" />
+                                                        Show All Questions
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <AlertCircle className="w-4 h-4" />
+                                                        Review Incorrect (
+                                                        {incorrectQuestions.length})
+                                                    </>
+                                                )}
+                                            </button>
+                                        )}
+                                    </div>
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        {Object.entries(domainStats).map(([name, s]) => (
+                                            <div
+                                                key={name}
+                                                className="rounded-xl border p-4 bg-white"
+                                            >
+                                                <div className="font-medium">{name}</div>
+                                                <div className="w-full bg-slate-200 rounded-full h-2 mt-2">
+                                                    <div
+                                                        className="bg-blue-500 h-2 rounded-full transition-all"
+                                                        style={{
+                                                            width: `${
+                                                                s.total
+                                                                    ? (s.correct / s.total) * 100
+                                                                    : 0
+                                                            }%`,
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div className="text-sm text-slate-600 mt-1">
+                                                    {s.correct} / {s.total} correct
+                                                </div>
                                             </div>
-                                            <div className="text-sm text-slate-600 mt-1">
-                                                {s.correct} / {s.total} correct
-                                            </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        Passing on the real exam requires a scaled score of
+                                        700/1000. This mock uses percentage scoring to give you
+                                        directional feedback.
+                                    </p>
                                 </div>
-                                <p className="text-sm text-slate-600">
-                                    Passing on the real exam requires a scaled score of 700/1000.
-                                    This mock uses percentage scoring to give you directional
-                                    feedback.
-                                </p>
-                            </div>
+
+                                {showIncorrectOnly && incorrectQuestions.length > 0 && (
+                                    <div className="rounded-2xl border-2 border-red-200 shadow-md p-6 space-y-4 bg-red-50">
+                                        <div className="flex items-center gap-2">
+                                            <AlertCircle className="w-5 h-5 text-red-600" />
+                                            <h3 className="text-xl font-semibold text-red-900">
+                                                Questions to Review ({incorrectQuestions.length})
+                                            </h3>
+                                        </div>
+                                        <p className="text-sm text-red-700">
+                                            Review these questions to improve your understanding.
+                                        </p>
+                                        <div className="space-y-4">
+                                            {incorrectQuestions.map((q, idx) => {
+                                                const chosen = Array.from(answers[q.id] || []);
+                                                return (
+                                                    <div
+                                                        key={q.id}
+                                                        className="rounded-xl border-2 border-red-200 bg-white p-5 space-y-3"
+                                                    >
+                                                        <div className="flex items-center justify-between">
+                                                            <div className="text-sm text-slate-600">
+                                                                {q.domain}
+                                                            </div>
+                                                            <div className="text-xs font-mono px-2 py-1 rounded-full border border-red-300 bg-red-50 text-red-700">
+                                                                {q.type === "multi"
+                                                                    ? "Multiple response"
+                                                                    : "Multiple choice"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="text-base font-medium">
+                                                            {idx + 1}. {q.question}
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <div className="text-sm font-semibold text-red-700">
+                                                                Your answer:{" "}
+                                                                <span className="font-mono">
+                                                                    {chosen.length > 0
+                                                                        ? chosen.join(", ")
+                                                                        : "Not answered"}
+                                                                </span>
+                                                            </div>
+                                                            <div className="text-sm font-semibold text-green-700">
+                                                                Correct answer
+                                                                {q.correctOptionIds.length > 1
+                                                                    ? "s"
+                                                                    : ""}
+                                                                :{" "}
+                                                                <span className="font-mono">
+                                                                    {q.correctOptionIds.join(", ")}
+                                                                </span>
+                                                            </div>
+                                                            <div className="space-y-2 pt-2 border-t">
+                                                                {q.options.map((o) => {
+                                                                    const isSelected =
+                                                                        chosen.includes(o.id);
+                                                                    const isCorrect =
+                                                                        q.correctOptionIds.includes(
+                                                                            o.id
+                                                                        );
+                                                                    return (
+                                                                        <div
+                                                                            key={o.id}
+                                                                            className={`p-2 rounded-lg border-2 ${
+                                                                                isCorrect
+                                                                                    ? "border-green-500 bg-green-50"
+                                                                                    : isSelected
+                                                                                    ? "border-red-500 bg-red-50"
+                                                                                    : "border-gray-200 bg-gray-50"
+                                                                            }`}
+                                                                        >
+                                                                            <div className="flex items-center gap-2">
+                                                                                <span className="font-mono text-sm">
+                                                                                    {o.id}
+                                                                                </span>
+                                                                                <span
+                                                                                    className={`text-sm ${
+                                                                                        isCorrect
+                                                                                            ? "font-semibold text-green-700"
+                                                                                            : isSelected
+                                                                                            ? "font-semibold text-red-700"
+                                                                                            : "text-slate-600"
+                                                                                    }`}
+                                                                                >
+                                                                                    {o.text}
+                                                                                </span>
+                                                                                {isCorrect && (
+                                                                                    <span className="ml-auto text-xs bg-green-500 text-white px-2 py-1 rounded">
+                                                                                        Correct
+                                                                                    </span>
+                                                                                )}
+                                                                                {isSelected &&
+                                                                                    !isCorrect && (
+                                                                                        <span className="ml-auto text-xs bg-red-500 text-white px-2 py-1 rounded">
+                                                                                            Your
+                                                                                            choice
+                                                                                        </span>
+                                                                                    )}
+                                                                            </div>
+                                                                        </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                            <div className="mt-3 p-3 rounded-lg bg-blue-50 border border-blue-200">
+                                                                <div className="text-sm font-semibold text-blue-900 mb-1 flex items-center gap-1">
+                                                                    <BookOpenText className="w-4 h-4" />
+                                                                    Explanation
+                                                                </div>
+                                                                <div className="text-sm text-blue-800 leading-relaxed">
+                                                                    {q.explanation}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
+                            </>
                         )}
                     </div>
                 )}
