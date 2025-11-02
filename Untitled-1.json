@@ -1,0 +1,156 @@
+[
+    {
+        "id": "D1-Q1",
+        "domain": "Cloud Concepts",
+        "type": "single",
+        "question": "Which of the following is a key advantage of cloud computing that allows customers to stop guessing about capacity?",
+        "options": [
+            { "id": "a", "text": "Trade capital expense for variable expense" },
+            { "id": "b", "text": "Benefit from massive economies of scale" },
+            { "id": "c", "text": "Increased speed and agility" },
+            { "id": "d", "text": "Elasticity" }
+        ],
+        "correctOptionIds": ["d"],
+        "explanation": "Elasticity is the ability to automatically scale resources up or down based on current demand, eliminating the need to guess capacity.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "D1-Q2",
+        "domain": "Cloud Concepts",
+        "type": "multi",
+        "question": "Which two design principles are essential for designing applications in the AWS Cloud to be highly available?",
+        "options": [
+            { "id": "a", "text": "Decouple components" },
+            { "id": "b", "text": "Pay-as-you-go pricing" },
+            { "id": "c", "text": "Automate everything" },
+            { "id": "d", "text": "Design for failure" },
+            { "id": "e", "text": "Use monolithic architecture" }
+        ],
+        "correctOptionIds": ["a", "d"],
+        "explanation": "Decoupling components and designing for failure (using multiple Availability Zones/Regions) are core principles for achieving high availability.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "D2-Q1",
+        "domain": "Security and Compliance",
+        "type": "single",
+        "question": "Under the AWS Shared Responsibility Model, which security task is the customer ALWAYS responsible for?",
+        "options": [
+            { "id": "a", "text": "Managing physical security of the data center" },
+            { "id": "b", "text": "Patching the underlying host operating system" },
+            { "id": "c", "text": "Managing security of the AWS infrastructure" },
+            { "id": "d", "text": "Managing application data encryption" }
+        ],
+        "correctOptionIds": ["d"],
+        "explanation": "The customer is always responsible for the security 'in' the cloud, including data encryption, access control, and application security.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "D2-Q2",
+        "domain": "Security and Compliance",
+        "type": "multi",
+        "question": "Which two AWS services are best used for continuous security assessment and auditing of your AWS resources and account activity?",
+        "options": [
+            { "id": "a", "text": "AWS Trusted Advisor" },
+            { "id": "b", "text": "AWS CloudTrail" },
+            { "id": "c", "text": "Amazon S3" },
+            { "id": "d", "text": "AWS Identity and Access Management (IAM)" },
+            { "id": "e", "text": "Amazon SQS" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "AWS CloudTrail logs all API calls for auditing, and AWS Trusted Advisor checks your environment for security best practices.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "D2-Q3",
+        "domain": "Security and Compliance",
+        "type": "single",
+        "question": "Which service should be used to protect Amazon EC2 instances from common web exploits like SQL injection and cross-site scripting?",
+        "options": [
+            { "id": "a", "text": "AWS Shield" },
+            { "id": "b", "text": "Amazon Inspector" },
+            { "id": "c", "text": "AWS WAF" },
+            { "id": "d", "text": "Amazon GuardDuty" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "AWS WAF (Web Application Firewall) helps protect web applications from common web exploits.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "D3-Q1",
+        "domain": "Cloud Technology and Services",
+        "type": "single",
+        "question": "A company needs an easy way to store and retrieve unstructured data objects like images and video files. Which AWS service is the most appropriate solution?",
+        "options": [
+            { "id": "a", "text": "Amazon Elastic Block Store (EBS)" },
+            { "id": "b", "text": "Amazon Elastic Compute Cloud (EC2)" },
+            { "id": "c", "text": "Amazon Simple Storage Service (S3)" },
+            { "id": "d", "text": "Amazon Relational Database Service (RDS)" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Amazon S3 is an object storage service designed for storing and retrieving any amount of data from anywhere.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "D3-Q2",
+        "domain": "Cloud Technology and Services",
+        "type": "multi",
+        "question": "Which two services are considered to be foundational compute services in the AWS Cloud?",
+        "options": [
+            { "id": "a", "text": "AWS Lambda" },
+            { "id": "b", "text": "Amazon S3" },
+            { "id": "c", "text": "Amazon EC2" },
+            { "id": "d", "text": "Amazon DynamoDB" },
+            { "id": "e", "text": "Amazon ECS" }
+        ],
+        "correctOptionIds": ["a", "c"],
+        "explanation": "Amazon EC2 (virtual servers) and AWS Lambda (serverless functions) are the two primary foundational compute services offered by AWS.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "D3-Q3",
+        "domain": "Cloud Technology and Services",
+        "type": "single",
+        "question": "What is the service that enables users to provision a logically isolated section of the AWS Cloud where they can launch AWS resources in a virtual network they define?",
+        "options": [
+            { "id": "a", "text": "AWS Direct Connect" },
+            { "id": "b", "text": "Amazon Route 53" },
+            { "id": "c", "text": "Amazon VPC" },
+            { "id": "d", "text": "AWS Transit Gateway" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Amazon VPC (Virtual Private Cloud) allows you to define and provision a virtual network in the AWS cloud, isolated from the public internet.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "D4-Q1",
+        "domain": "Billing, Pricing, and Support",
+        "type": "single",
+        "question": "Which pricing model allows you to commit to a specific instance family for a one-year or three-year term in exchange for a significant discount?",
+        "options": [
+            { "id": "a", "text": "On-Demand Instances" },
+            { "id": "b", "text": "Dedicated Hosts" },
+            { "id": "c", "text": "Reserved Instances (RIs)" },
+            { "id": "d", "text": "Spot Instances" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Reserved Instances (RIs) offer a substantial discount compared to On-Demand prices in exchange for a 1-year or 3-year commitment.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "D4-Q2",
+        "domain": "Billing, Pricing, and Support",
+        "type": "multi",
+        "question": "Which two factors are generally used to determine the cost of Amazon S3 storage?",
+        "options": [
+            { "id": "a", "text": "The number of VPCs provisioned" },
+            { "id": "b", "text": "The storage class used (e.g., Standard, Glacier)" },
+            { "id": "c", "text": "The amount of data transferred OUT of AWS" },
+            { "id": "d", "text": "The number of Availability Zones in the Region" },
+            { "id": "e", "text": "The time of day objects were accessed" }
+        ],
+        "correctOptionIds": ["b", "c"],
+        "explanation": "S3 costs are primarily based on the storage class chosen and the volume of data transferred out of the S3 Region (outbound data transfer).",
+        "difficulty": "medium"
+    }
+]
