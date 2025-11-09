@@ -1,24 +1,29 @@
 import { z } from "zod";
-import { DOMAINS } from "../data/exams";
-
 /**
  * Runtime validation schema for question data.
  * Validates questions from seed data, imports, or future API responses.
  */
-
-const validDomains = DOMAINS.map((d) => d.name);
 
 export const QuestionOptionSchema = z.object({
     id: z.string().min(1, "Option ID is required"),
     text: z.string().min(1, "Option text is required"),
 });
 
-export const QuestionSchema = z
-    .object({
-        id: z.string().min(1, "Question ID is required"),
-        domain: z.enum(validDomains, {
-            errorMap: () => ({ message: `Domain must be one of: ${validDomains.join(", ")}` }),
-        }),
+export function buildQuestionSchema(domainNames = []) {
+    const uniqueDomains = Array.from(new Set(domainNames)).filter(Boolean);
+    const domainSchema =
+        uniqueDomains.length > 0
+            ? z.enum(uniqueDomains, {
+                  errorMap: () => ({
+                      message: `Domain must be one of: ${uniqueDomains.join(", ")}`,
+                  }),
+              })
+            : z.string().min(1, "Domain is required");
+
+    return z
+        .object({
+            id: z.string().min(1, "Question ID is required"),
+            domain: domainSchema,
         type: z.enum(["single", "multi"], {
             errorMap: () => ({ message: 'Type must be "single" or "multi"' }),
         }),
@@ -47,35 +52,38 @@ export const QuestionSchema = z
             path: ["correctOptionIds"],
         }
     )
-    .refine(
-        (data) => {
-            if (data.type === "single") {
-                return data.correctOptionIds.length === 1;
+        .refine(
+            (data) => {
+                if (data.type === "single") {
+                    return data.correctOptionIds.length === 1;
+                }
+                return data.correctOptionIds.length >= 2;
+            },
+            {
+                message:
+                    "Single-response questions must have exactly one correct option; multi-response questions must have at least two",
+                path: ["correctOptionIds"],
             }
-            return data.correctOptionIds.length >= 2;
-        },
-        {
-            message:
-                "Single-response questions must have exactly one correct option; multi-response questions must have at least two",
-            path: ["correctOptionIds"],
-        }
-    );
+        );
+}
 
 /**
  * Validates a single question object against the schema.
  * @param {unknown} data - Raw question data to validate
+ * @param {string[]} domainNames - Allowed domain names
  * @returns {{ success: boolean, data?: Question, error?: z.ZodError }}
  */
-export function validateQuestion(data) {
-    return QuestionSchema.safeParse(data);
+export function validateQuestion(data, domainNames = []) {
+    return buildQuestionSchema(domainNames).safeParse(data);
 }
 
 /**
  * Validates an array of questions.
  * @param {unknown} data - Raw array of question data to validate
+ * @param {string[]} domainNames - Allowed domain names
  * @returns {{ success: boolean, data?: Question[], errors?: Array<{ index: number, error: z.ZodError }> }}
  */
-export function validateQuestions(data) {
+export function validateQuestions(data, domainNames = []) {
     if (!Array.isArray(data)) {
         return {
             success: false,
@@ -93,8 +101,9 @@ export function validateQuestions(data) {
     const errors = [];
     const validQuestions = [];
 
+    const schema = buildQuestionSchema(domainNames);
     data.forEach((item, index) => {
-        const result = validateQuestion(item);
+        const result = schema.safeParse(item);
         if (result.success) {
             validQuestions.push(result.data);
         } else {
@@ -111,5 +120,5 @@ export function validateQuestions(data) {
 
 /**
  * Type inference for Question (for JSDoc/IDE support)
- * @typedef {z.infer<typeof QuestionSchema>} Question
+ * @typedef {z.infer<ReturnType<typeof buildQuestionSchema>>} Question
  */

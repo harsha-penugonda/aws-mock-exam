@@ -1,5 +1,3 @@
-import { DOMAINS } from "../data/exams";
-
 export function randomSample(source, count, random = Math.random) {
     const copy = [...source];
     const out = [];
@@ -19,7 +17,7 @@ export function shuffle(source, random = Math.random) {
     return copy;
 }
 
-export function sampleWeighted(bank, total, random = Math.random) {
+export function sampleWeighted(bank, total, domains = [], random = Math.random) {
     const byDomain = bank.reduce((acc, question) => {
         if (!acc[question.domain]) acc[question.domain] = [];
         acc[question.domain].push(question);
@@ -27,7 +25,7 @@ export function sampleWeighted(bank, total, random = Math.random) {
     }, {});
 
     const picks = [];
-    DOMAINS.forEach((domain) => {
+    domains.forEach((domain) => {
         const pool = byDomain[domain.name] || [];
         if (pool.length === 0) return;
         const target = Math.round(total * domain.weight);
@@ -73,8 +71,8 @@ export function isAnswerReadyForValidation(selected = [], correctOptionIds = [],
     return selected.length === correctOptionIds.length;
 }
 
-export function buildDomainStats(questions, answers) {
-    const stats = DOMAINS.reduce((acc, domain) => {
+export function buildDomainStats(questions, answers, domains = []) {
+    const stats = domains.reduce((acc, domain) => {
         acc[domain.name] = { total: 0, correct: 0 };
         return acc;
     }, {});
@@ -105,10 +103,10 @@ export function calculateScore(questions, answers) {
  * @deprecated Use validateQuestions from schemas/question.js instead.
  * This function is kept for backward compatibility but should be migrated.
  */
-export function sanitizeImportedQuestions(raw, { existingIds }) {
+export function sanitizeImportedQuestions(raw, { existingIds, domains = [] }) {
     // Note: New code should use validateQuestions from schemas/question.js
     // This legacy function is maintained for compatibility
-    const validDomains = new Set(DOMAINS.map((d) => d.name));
+    const validDomains = new Set(domains.map((d) => d.name));
     const accepted = [];
     const rejected = [];
     const warnings = [];

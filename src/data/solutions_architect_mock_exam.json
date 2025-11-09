@@ -1,0 +1,154 @@
+[
+    {
+        "id": "arch-2",
+        "domain": "Architecture and Design",
+        "type": "multi",
+        "question": "A company needs to design an application that can handle millions of read requests with minimal latency. Which TWO AWS services should be combined to achieve this?",
+        "options": [
+            { "id": "a", "text": "Amazon CloudFront" },
+            { "id": "b", "text": "Amazon RDS" },
+            { "id": "c", "text": "Amazon S3" },
+            { "id": "d", "text": "AWS Glue" },
+            { "id": "e", "text": "Amazon SNS" }
+        ],
+        "correctOptionIds": ["a", "c"],
+        "explanation": "CloudFront caches content globally for low latency, while S3 provides durable and scalable object storage ideal for serving large volumes of static content.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-1",
+        "domain": "High Availability and Scalability",
+        "type": "single",
+        "question": "A web application experiences unpredictable traffic spikes. Which AWS feature helps maintain performance automatically during peak loads?",
+        "options": [
+            { "id": "a", "text": "Elastic Load Balancing" },
+            { "id": "b", "text": "AWS CloudTrail" },
+            { "id": "c", "text": "AWS Auto Scaling" },
+            { "id": "d", "text": "Amazon Inspector" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "AWS Auto Scaling automatically adjusts capacity based on demand, maintaining consistent performance during spikes.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "sec-1",
+        "domain": "Security and Compliance",
+        "type": "multi",
+        "question": "A company stores sensitive customer data in S3. Which TWO actions improve data security and compliance?",
+        "options": [
+            { "id": "a", "text": "Enable S3 server-side encryption (SSE-S3 or SSE-KMS)" },
+            { "id": "b", "text": "Grant public read access to the bucket" },
+            { "id": "c", "text": "Use IAM policies with least privilege access" },
+            { "id": "d", "text": "Disable S3 versioning" }
+        ],
+        "correctOptionIds": ["a", "c"],
+        "explanation": "Encrypting data and using least privilege IAM policies protect sensitive data and comply with best practices.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "net-1",
+        "domain": "Networking",
+        "type": "single",
+        "question": "An application running in a private subnet must access the internet for software updates. What should be configured?",
+        "options": [
+            { "id": "a", "text": "Internet Gateway" },
+            { "id": "b", "text": "NAT Gateway" },
+            { "id": "c", "text": "VPC Peering Connection" },
+            { "id": "d", "text": "AWS Direct Connect" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "A NAT Gateway allows instances in a private subnet to initiate outbound connections to the internet securely.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "cloud-1",
+        "domain": "Cloud Concepts",
+        "type": "single",
+        "question": "Which AWS feature provides a way to estimate the cost of running workloads before deployment?",
+        "options": [
+            { "id": "a", "text": "AWS Cost Explorer" },
+            { "id": "b", "text": "AWS Budgets" },
+            { "id": "c", "text": "AWS Pricing Calculator" },
+            { "id": "d", "text": "AWS Trusted Advisor" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "AWS Pricing Calculator lets users estimate costs based on expected usage before deployment.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "ha-2",
+        "domain": "High Availability and Scalability",
+        "type": "multi",
+        "question": "A global e-commerce site needs minimal downtime and low latency for users worldwide. Which TWO strategies help achieve this?",
+        "options": [
+            { "id": "a", "text": "Deploy applications across multiple AWS Regions" },
+            { "id": "b", "text": "Use CloudFront for content delivery" },
+            { "id": "c", "text": "Use a single Availability Zone deployment" },
+            { "id": "d", "text": "Manually scale EC2 instances during traffic peaks" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Deploying across Regions ensures global redundancy, and CloudFront reduces latency through edge caching.",
+        "difficulty": "hard"
+    },
+    {
+        "id": "arch-3",
+        "domain": "Architecture and Design",
+        "type": "single",
+        "question": "Which design pattern improves resiliency by decoupling components of an application?",
+        "options": [
+            { "id": "a", "text": "Monolithic architecture" },
+            { "id": "b", "text": "Tightly coupled integration" },
+            { "id": "c", "text": "Event-driven architecture using Amazon SNS or SQS" },
+            { "id": "d", "text": "Single-threaded processing" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Event-driven architectures using SNS or SQS decouple components, enhancing fault tolerance and scalability.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "sec-2",
+        "domain": "Security and Compliance",
+        "type": "single",
+        "question": "An AWS account administrator wants to enforce multi-factor authentication (MFA) for all console logins. Which service is used?",
+        "options": [
+            { "id": "a", "text": "AWS CloudTrail" },
+            { "id": "b", "text": "AWS Config" },
+            { "id": "c", "text": "AWS IAM" },
+            { "id": "d", "text": "AWS Shield" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "IAM enables MFA enforcement for user logins, adding an additional security layer for console access.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "net-2",
+        "domain": "Networking",
+        "type": "multi",
+        "question": "A company wants to establish a secure, low-latency hybrid connection between its data center and AWS. Which TWO solutions meet this requirement?",
+        "options": [
+            { "id": "a", "text": "AWS Direct Connect" },
+            { "id": "b", "text": "VPN over the public internet" },
+            { "id": "c", "text": "AWS Site-to-Site VPN" },
+            { "id": "d", "text": "AWS Transit Gateway only" },
+            { "id": "e", "text": "VPC Endpoint" }
+        ],
+        "correctOptionIds": ["a", "c"],
+        "explanation": "Direct Connect provides a dedicated, low-latency connection, and Site-to-Site VPN ensures encrypted communication as backup or primary link.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "cloud-2",
+        "domain": "Cloud Concepts",
+        "type": "single",
+        "question": "Which AWS pricing model offers the most cost savings for steady-state workloads?",
+        "options": [
+            { "id": "a", "text": "On-Demand Instances" },
+            { "id": "b", "text": "Spot Instances" },
+            { "id": "c", "text": "Reserved Instances" },
+            { "id": "d", "text": "Savings Plans" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Reserved Instances provide significant discounts for predictable, long-term workloads compared to on-demand pricing.",
+        "difficulty": "medium"
+    }
+]

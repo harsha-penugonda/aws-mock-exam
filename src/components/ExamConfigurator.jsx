@@ -1,6 +1,5 @@
 import React from "react";
 import { PlayCircle, ListChecks, Filter, Upload, Download, AlertCircle } from "lucide-react";
-import { DOMAINS } from "../data/exams";
 
 /**
  * Exam configuration component for selecting exam mode and importing questions.
@@ -19,35 +18,28 @@ export function ExamConfigurator({
     onImportFile,
     importStatus,
     onDownloadTemplate,
+    presets = [],
+    domains = [],
 }) {
     return (
         <div className="rounded-2xl shadow-md p-6 space-y-6 bg-white">
             <div className="grid md:grid-cols-3 gap-4">
-                <div className="p-5 rounded-2xl border bg-white flex flex-col gap-3">
-                    <h3 className="font-semibold text-lg">Full Exam</h3>
-                    <p className="text-sm text-slate-600">
-                        65 questions • 90 minutes • weighted to the official domain percentages.
-                    </p>
-                    <button
-                        onClick={() => onStartExam("full")}
-                        className="px-4 py-2 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 transition-colors"
-                    >
-                        <PlayCircle className="w-4 h-4" />
-                        Start
-                    </button>
-                </div>
-
-                <div className="p-5 rounded-2xl border bg-white flex flex-col gap-3">
-                    <h3 className="font-semibold text-lg">Quick Practice</h3>
-                    <p className="text-sm text-slate-600">20 questions • 30 minutes • mixed domains.</p>
-                    <button
-                        onClick={() => onStartExam("quick")}
-                        className="px-4 py-2 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 transition-colors"
-                    >
-                        <ListChecks className="w-4 h-4" />
-                        Start
-                    </button>
-                </div>
+                {presets.map((preset) => {
+                    const Icon = preset.id === "quick" ? ListChecks : PlayCircle;
+                    return (
+                        <div key={preset.id} className="p-5 rounded-2xl border bg-white flex flex-col gap-3">
+                            <h3 className="font-semibold text-lg">{preset.label}</h3>
+                            <p className="text-sm text-slate-600">{preset.description}</p>
+                            <button
+                                onClick={() => onStartExam(preset.id)}
+                                className="px-4 py-2 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 transition-colors"
+                            >
+                                <Icon className="w-4 h-4" />
+                                Start
+                            </button>
+                        </div>
+                    );
+                })}
 
                 <div className="p-5 rounded-2xl border bg-white flex flex-col gap-3">
                     <h3 className="font-semibold text-lg">Domain Practice</h3>
@@ -58,7 +50,7 @@ export function ExamConfigurator({
                             value={domainPick}
                             onChange={(event) => setDomainPick(event.target.value)}
                         >
-                            {DOMAINS.map((domain) => (
+                            {domains.map((domain) => (
                                 <option key={domain.name} value={domain.name}>
                                     {domain.name}
                                 </option>
@@ -187,7 +179,7 @@ export function ExamConfigurator({
             <div className="rounded-2xl border p-4 bg-slate-50">
                 <h4 className="font-semibold mb-2">Domain weights</h4>
                 <div className="grid md:grid-cols-4 gap-3">
-                    {DOMAINS.map((domain) => (
+                    {domains.map((domain) => (
                         <div key={domain.name} className="p-3 rounded-xl bg-white border">
                             <div className="text-sm font-medium">{domain.name}</div>
                             <div className="w-full bg-slate-200 rounded-full h-2 mt-2">

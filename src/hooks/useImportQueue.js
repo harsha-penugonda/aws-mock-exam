@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { validateQuestions } from "../schemas/question";
 
 /**
@@ -6,9 +6,10 @@ import { validateQuestions } from "../schemas/question";
  * Isolates file handling, validation, and import status management.
  *
  * @param {Array} existingQuestions - Questions already in the bank (for duplicate checking)
+ * @param {Array<string>} domainNames - Valid domain names for the active exam
  * @returns {object} Import state and handlers
  */
-export function useImportQueue(existingQuestions = []) {
+export function useImportQueue(existingQuestions = [], domainNames = []) {
     const [importStatus, setImportStatus] = useState(null);
     const [importedQuestions, setImportedQuestions] = useState([]);
 
@@ -28,7 +29,7 @@ export function useImportQueue(existingQuestions = []) {
                 }
 
                 // Validate questions using zod schema
-                const validationResult = validateQuestions(data);
+                const validationResult = validateQuestions(data, domainNames);
 
                 const accepted = [];
                 const rejected = [];
@@ -116,7 +117,7 @@ export function useImportQueue(existingQuestions = []) {
                 });
             }
         },
-        [existingIds]
+        [existingIds, domainNames]
     );
 
     const clearImportStatus = useCallback(() => {
@@ -127,6 +128,11 @@ export function useImportQueue(existingQuestions = []) {
         setImportedQuestions([]);
     }, []);
 
+    // Reset imported questions when the source exam changes
+    useEffect(() => {
+        setImportedQuestions([]);
+    }, [existingQuestions]);
+
     return {
         importedQuestions,
         importStatus,
@@ -135,4 +141,3 @@ export function useImportQueue(existingQuestions = []) {
         clearImported,
     };
 }
-

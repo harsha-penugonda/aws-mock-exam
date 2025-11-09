@@ -1,25 +1,28 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
-const HISTORY_STORAGE_KEY = "aws-mock-exam-history";
+const HISTORY_STORAGE_KEY_DEFAULT = "aws-mock-exam-history";
 const MAX_HISTORY_ENTRIES = 10;
 
 /**
  * Custom hook to manage attempt history persistence in localStorage.
  * Isolates browser API usage for better SSR/suspense handling.
  *
+ * @param {string} storageKey - localStorage key namespace per exam
  * @returns {object} History state and methods
  */
-export function useAttemptHistory() {
-    const [attemptHistory, setAttemptHistory] = useState(() => {
+export function useAttemptHistory(storageKey = HISTORY_STORAGE_KEY_DEFAULT) {
+    const readHistory = useCallback(() => {
         if (typeof window === "undefined") return [];
         try {
-            const stored = window.localStorage.getItem(HISTORY_STORAGE_KEY);
+            const stored = window.localStorage.getItem(storageKey);
             return stored ? JSON.parse(stored) : [];
         } catch (error) {
             console.warn("Failed to parse history from localStorage", error);
             return [];
         }
-    });
+    }, [storageKey]);
+
+    const [attemptHistory, setAttemptHistory] = useState(readHistory);
 
     const recordedAttemptRef = useRef(false);
 
@@ -27,11 +30,17 @@ export function useAttemptHistory() {
     useEffect(() => {
         if (typeof window === "undefined") return;
         try {
-            window.localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(attemptHistory));
+            window.localStorage.setItem(storageKey, JSON.stringify(attemptHistory));
         } catch (error) {
             console.warn("Failed to persist history", error);
         }
-    }, [attemptHistory]);
+    }, [attemptHistory, storageKey]);
+
+    // Reload history whenever the storage key changes (e.g., switching exams)
+    useEffect(() => {
+        setAttemptHistory(readHistory());
+        recordedAttemptRef.current = false;
+    }, [storageKey, readHistory]);
 
     /**
      * Record a new exam attempt
@@ -63,7 +72,7 @@ export function useAttemptHistory() {
         setAttemptHistory([]);
         if (typeof window !== "undefined") {
             try {
-                window.localStorage.removeItem(HISTORY_STORAGE_KEY);
+                window.localStorage.removeItem(storageKey);
             } catch (error) {
                 console.warn("Failed to clear history from localStorage", error);
             }
@@ -77,4 +86,3 @@ export function useAttemptHistory() {
         clearHistory,
     };
 }
-

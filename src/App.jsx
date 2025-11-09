@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useReducer, useState } from "react";
 import { Clock, RotateCcw } from "lucide-react";
 
-import { SEED_QUESTIONS, DOMAINS, MODE_PRESETS } from "./data/exams";
+import { EXAMS, DEFAULT_EXAM_ID, getExamById } from "./data/exams";
 import { useCountdown } from "./hooks/useCountdown";
 import { useExamTimer } from "./hooks/useExamTimer";
 import { useImportQueue } from "./hooks/useImportQueue";
@@ -20,24 +20,52 @@ import { ReviewPanel } from "./components/ReviewPanel";
 import { AttemptHistory } from "./components/AttemptHistory";
 
 const REVIEW_ALL = "all";
-const IMPORT_TEMPLATE = [
-    {
-        id: "custom-1",
-        domain: "Cloud Concepts",
-        type: "single",
-        question: "Which AWS pricing model is best for a workload with steady, predictable usage?",
-        options: [
-            { id: "a", text: "On-Demand Instances" },
-            { id: "b", text: "Savings Plans" },
-            { id: "c", text: "Dedicated Hosts" },
-            { id: "d", text: "Spot Instances" },
-        ],
-        correctOptionIds: ["b"],
-        explanation:
-            "Savings Plans provide cost savings for steady-state usage when you commit to consistent compute consumption.",
-        difficulty: "medium",
-    },
-];
+const DEFAULT_DOMAIN_NAME = getExamById(DEFAULT_EXAM_ID).domains[0]?.name || "";
+
+function buildImportGuide(exam) {
+    const domainList = exam.domains.map((domain) => `- ${domain.name}`).join("\n");
+    const schema = `{
+  "id": "unique-question-id",
+  "domain": "One of the approved domains",
+  "type": "single | multi",
+  "question": "Question text",
+  "options": [
+    { "id": "a", "text": "First option" },
+    { "id": "b", "text": "Second option" }
+  ],
+  "correctOptionIds": ["a"],
+  "explanation": "Why the answer is correct",
+  "difficulty": "easy | medium | hard"
+}`;
+    const examplePayload =
+        exam.importTemplate && exam.importTemplate.length > 0
+            ? JSON.stringify(exam.importTemplate[0], null, 2)
+            : "";
+    return `# ${exam.title} – Question Generation Prompt
+
+You are a question author helping to create practice items for the ${exam.code} exam.
+Generate a JSON array of objects that follow the schema below. Only return JSON (no prose).
+
+## Domains
+${domainList}
+
+## JSON Schema
+\`\`\`json
+${schema}
+\`\`\`
+
+- Every question must include 4–5 options.
+- For multi-response questions, include at least 2 correct options.
+- Use realistic AWS scenarios.
+- Always include a short explanation that justifies the correct answer(s).
+
+## Example Entry
+\`\`\`json
+${examplePayload}
+\`\`\`
+
+Return JSON only, with 5–10 questions that span the listed domains.`;
+}
 
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
@@ -52,8 +80,11 @@ function clampNumber(value, min, max) {
 }
 
 export default function App() {
+    const [activeExamId, setActiveExamId] = useState(DEFAULT_EXAM_ID);
+    const activeExam = useMemo(() => getExamById(activeExamId), [activeExamId]);
+
     // Local UI state (not part of exam flow)
-    const [domainPick, setDomainPick] = useState(DOMAINS[0].name);
+    const [domainPick, setDomainPick] = useState(DEFAULT_DOMAIN_NAME);
     const [domainQty, setDomainQty] = useState(10);
     const [importedQty, setImportedQty] = useState(10);
 
@@ -71,12 +102,43 @@ export default function App() {
         finished: false,
     });
 
+    const domainNames = useMemo(
+        () => activeExam.domains.map((domain) => domain.name),
+        [activeExam]
+    );
+
+    useEffect(() => {
+        setDomainPick(activeExam.domains[0]?.name || "");
+    }, [activeExam]);
+
+    useEffect(() => {
+        if (typeof document === "undefined") return;
+        if (activeExam.meta?.title) {
+            document.title = activeExam.meta.title;
+        }
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription && activeExam.meta?.description) {
+            metaDescription.setAttribute("content", activeExam.meta.description);
+        }
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle && activeExam.meta?.ogTitle) {
+            ogTitle.setAttribute("content", activeExam.meta.ogTitle);
+        }
+        const ogDescription = document.querySelector('meta[property="og:description"]');
+        if (ogDescription && activeExam.meta?.ogDescription) {
+            ogDescription.setAttribute("content", activeExam.meta.ogDescription);
+        }
+    }, [activeExam]);
+
     // Question bank (seed + imported)
-    const { importedQuestions, importStatus, importQuestions, clearImportStatus } =
-        useImportQueue(SEED_QUESTIONS);
+    const seedQuestions = useMemo(() => activeExam.questionBank || [], [activeExam]);
+    const { importedQuestions, importStatus, importQuestions, clearImportStatus } = useImportQueue(
+        seedQuestions,
+        domainNames
+    );
     const questionBank = useMemo(
-        () => [...SEED_QUESTIONS, ...importedQuestions],
-        [importedQuestions]
+        () => [...seedQuestions, ...importedQuestions],
+        [seedQuestions, importedQuestions]
     );
 
     // Timer management
@@ -105,7 +167,9 @@ export default function App() {
     );
 
     // Attempt history management
-    const { attemptHistory, recordAttempt, resetRecordedFlag } = useAttemptHistory();
+    const { attemptHistory, recordAttempt, resetRecordedFlag } = useAttemptHistory(
+        activeExam.storageKey
+    );
 
     // Derived state
     const domainPoolSize = useMemo(
@@ -114,8 +178,8 @@ export default function App() {
     );
 
     const domainStats = useMemo(
-        () => buildDomainStats(examState.visibleQuestions, examState.answers),
-        [examState.visibleQuestions, examState.answers]
+        () => buildDomainStats(examState.visibleQuestions, examState.answers, activeExam.domains),
+        [examState.visibleQuestions, examState.answers, activeExam]
     );
 
     const score = useMemo(
@@ -125,7 +189,9 @@ export default function App() {
 
     // Use secondsLeft from countdown hook for finished check
     const finished = examState.finished;
-    const allQuestionsAnswered =
+    const canManuallyFinish =
+        examState.started &&
+        !examState.finished &&
         examState.visibleQuestions.length > 0 &&
         score.answered === examState.visibleQuestions.length;
 
@@ -201,13 +267,13 @@ export default function App() {
             picks = shuffle(importedQuestions).slice(0, quantity);
             minutesBudget = Math.max(10, Math.ceil(quantity * 1.25));
         } else {
-            const preset = MODE_PRESETS[modeSelection];
+            const preset = activeExam.presets.find((entry) => entry.id === modeSelection);
             if (!preset) return;
             const total = Math.min(preset.total, bank.length);
             if (total === 0) {
                 return;
             }
-            picks = sampleWeighted(bank, total);
+            picks = sampleWeighted(bank, total, activeExam.domains);
             minutesBudget = preset.minutes;
         }
 
@@ -241,8 +307,7 @@ export default function App() {
     }
 
     function submitExam() {
-        if (!examState.started || finished) return;
-        if (!allQuestionsAnswered) return;
+        if (!canManuallyFinish) return;
         dispatch({ type: EXAM_ACTIONS.FINISH_EXAM });
     }
 
@@ -253,14 +318,22 @@ export default function App() {
         });
     }
 
+    function handleExamChange(nextExamId) {
+        if (nextExamId === activeExamId) return;
+        resetExam();
+        clearImportStatus();
+        setActiveExamId(nextExamId);
+    }
+
     function downloadTemplate() {
-        const blob = new Blob([JSON.stringify(IMPORT_TEMPLATE, null, 2)], {
-            type: "application/json",
+        const guide = buildImportGuide(activeExam);
+        const blob = new Blob([guide], {
+            type: "text/markdown",
         });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "aws-mock-exam-template.json";
+        link.download = `${activeExam.slug || "aws-practice-exam"}-question-guide.md`;
         link.click();
         URL.revokeObjectURL(url);
     }
@@ -289,7 +362,7 @@ export default function App() {
         const url = URL.createObjectURL(blob);
         const anchor = document.createElement("a");
         anchor.href = url;
-        anchor.download = `aws-clf-c02-mock-results-${Date.now()}.csv`;
+        anchor.download = `${activeExam.csvPrefix || "aws-exam"}-results-${Date.now()}.csv`;
         anchor.click();
         URL.revokeObjectURL(url);
     }
@@ -299,14 +372,30 @@ export default function App() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800 p-6">
             <div className="max-w-5xl mx-auto">
-                <header className="flex items-center justify-between mb-6">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight">
-                            AWS Cloud Practitioner Mock Exam
-                        </h1>
-                        <p className="text-sm text-slate-600">
-                            CLF-C02 • Covers all four domains • Multiple-choice & multiple-response
-                        </p>
+                <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
+                    <div className="space-y-2">
+                        <h1 className="text-3xl font-bold tracking-tight">{activeExam.title}</h1>
+                        <p className="text-sm text-slate-600">{activeExam.heroTagline}</p>
+                        <div className="flex flex-wrap items-center gap-2 text-sm">
+                            <span className="text-slate-500">Exam:</span>
+                            <select
+                                value={activeExamId}
+                                onChange={(event) => handleExamChange(event.target.value)}
+                                disabled={examState.started}
+                                className="border rounded-xl px-3 py-1 bg-white"
+                            >
+                                {EXAMS.map((exam) => (
+                                    <option key={exam.id} value={exam.id}>
+                                        {exam.shortTitle} ({exam.code})
+                                    </option>
+                                ))}
+                            </select>
+                            {examState.started && (
+                                <span className="text-xs text-amber-600">
+                                    Finish or reset to switch exams
+                                </span>
+                            )}
+                        </div>
                     </div>
                     <div className="flex items-center gap-3">
                         <div className="flex items-center gap-2 rounded-2xl border px-3 py-2 bg-white shadow-sm">
@@ -343,6 +432,8 @@ export default function App() {
                         onImportFile={importQuestions}
                         importStatus={importStatus}
                         onDownloadTemplate={downloadTemplate}
+                        presets={activeExam.presets}
+                        domains={activeExam.domains}
                     />
                 )}
 
@@ -371,6 +462,8 @@ export default function App() {
                                     domainStats={domainStats}
                                     showIncorrectOnly={examState.showIncorrectOnly}
                                     reviewDomain={examState.reviewDomain}
+                                    domains={activeExam.domains}
+                                    passScoreNote={activeExam.passScoreNote}
                                     onToggleIncorrectFilter={() =>
                                         handleReviewFilter({
                                             showIncorrectOnly: !examState.showIncorrectOnly,

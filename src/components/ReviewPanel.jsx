@@ -1,6 +1,5 @@
 import React from "react";
 import { AlertCircle, XCircle, BookOpenText } from "lucide-react";
-import { DOMAINS } from "../data/exams";
 import { answersEqual } from "../utils/exam";
 
 const REVIEW_ALL = "all";
@@ -17,6 +16,8 @@ export function ReviewPanel({
     domainStats,
     showIncorrectOnly,
     reviewDomain,
+    domains = [],
+    passScoreNote = "",
     onToggleIncorrectFilter,
     onDomainFilterChange,
 }) {
@@ -53,7 +54,7 @@ export function ReviewPanel({
                         className="border rounded-xl p-2 bg-white text-sm"
                     >
                         <option value={REVIEW_ALL}>All domains</option>
-                        {DOMAINS.map((domain) => (
+                        {domains.map((domain) => (
                             <option key={domain.name} value={domain.name}>
                                 {domain.name}
                             </option>
@@ -81,10 +82,9 @@ export function ReviewPanel({
                 ))}
             </div>
 
-            <p className="text-sm text-slate-600">
-                Passing on the real exam requires a scaled score of 700/1000. This mock uses percentage
-                scoring to give you directional feedback.
-            </p>
+            {passScoreNote && (
+                <p className="text-sm text-slate-600">{passScoreNote}</p>
+            )}
 
             {reviewPrompt && (
                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">

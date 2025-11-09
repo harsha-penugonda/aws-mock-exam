@@ -1,15 +1,12 @@
-# AWS Mock Exam
+# AWS Practice Exam Studio
 
-An interactive web application for practicing AWS Cloud Practitioner Certification exam questions with timed sessions, domain-based filtering, and performance tracking.
+An interactive web application for practicing AWS certification exams (Cloud Practitioner, Solutions Architect Associate, and beyond) with timed sessions, domain-based filtering, and performance tracking.
 
 ## Features
 
-- **Timed Exam Sessions**: Full-length (65 questions, 90 minutes) and quick practice (20 questions, 30 minutes) modes
-- **Domain-Based Questions**: Weighted sampling across AWS Cloud Practitioner domains:
-  - Cloud Concepts (24%)
-  - Security and Compliance (30%)
-  - Cloud Technology and Services (34%)
-  - Billing, Pricing, and Support (12%)
+- **Multi-Exam Switcher**: Swap between Cloud Practitioner, Solutions Architect Associate, or any future AWS exam packages without leaving the page.
+- **Timed Exam Sessions**: Exam-specific presets (full length, quick practice, domain drills) that mirror the official timing guidance for each AWS certification.
+- **Dynamic Domain Weighting**: The simulator automatically applies the correct domain mix for the selected exam (e.g., Cloud Practitioner, Solutions Architect Associate).
 - **Performance Tracking**: View detailed statistics by domain, review exam history, and track progress
 - **Question Import**: Import custom questions via JSON template
 - **Review Mode**: Review all questions or filter by domain after completing an exam
@@ -59,7 +56,7 @@ The app will open at [http://localhost:3000](http://localhost:3000).
 
 ## Importing Custom Questions
 
-You can import custom questions by uploading a JSON file that follows this template:
+You can import custom questions by uploading a JSON file that follows this template (domains must match the exam you select in the UI):
 
 ```json
 [
@@ -84,7 +81,7 @@ You can import custom questions by uploading a JSON file that follows this templ
 ### Question Schema
 
 - **id** (string, required): Unique identifier for the question
-- **domain** (string, required): One of: "Cloud Concepts", "Security and Compliance", "Cloud Technology and Services", "Billing, Pricing, and Support"
+- **domain** (string, required): One of the domains defined by the active exam (listed on the configurator screen)
 - **type** (string, required): "single" for single-select or "multiple" for multi-select questions
 - **question** (string, required): The question text
 - **options** (array, required): Array of option objects, each with:
