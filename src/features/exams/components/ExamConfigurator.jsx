@@ -147,7 +147,7 @@ export function ExamConfigurator({
                     type="button"
                 >
                     <Download className="w-4 h-4" />
-                    Download template
+                    Download prompt
                 </button>
             </div>
 

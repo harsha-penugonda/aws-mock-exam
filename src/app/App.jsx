@@ -67,7 +67,7 @@ ${schema}
 ${examplePayload}
 \`\`\`
 
-Return JSON only, with 5–10 questions that span the listed domains.`;
+Before generating, ask me how many questions to create and wait for my reply. Once I answer, return JSON only with that many questions covering the listed domains.`;
 }
 
 function formatTime(seconds) {

@@ -1,154 +1,985 @@
 [
     {
-        "id": "arch-2",
-        "domain": "Architecture and Design",
-        "type": "multi",
-        "question": "A company needs to design an application that can handle millions of read requests with minimal latency. Which TWO AWS services should be combined to achieve this?",
-        "options": [
-            { "id": "a", "text": "Amazon CloudFront" },
-            { "id": "b", "text": "Amazon RDS" },
-            { "id": "c", "text": "Amazon S3" },
-            { "id": "d", "text": "AWS Glue" },
-            { "id": "e", "text": "Amazon SNS" }
-        ],
-        "correctOptionIds": ["a", "c"],
-        "explanation": "CloudFront caches content globally for low latency, while S3 provides durable and scalable object storage ideal for serving large volumes of static content.",
-        "difficulty": "medium"
-    },
-    {
-        "id": "ha-1",
-        "domain": "High Availability and Scalability",
+        "id": "sec-1",
+        "domain": "Security and Compliance",
         "type": "single",
-        "question": "A web application experiences unpredictable traffic spikes. Which AWS feature helps maintain performance automatically during peak loads?",
+        "question": "A company needs to store sensitive customer data in Amazon S3. The data must be encrypted at rest and during transit. Which configuration meets this requirement?",
         "options": [
-            { "id": "a", "text": "Elastic Load Balancing" },
-            { "id": "b", "text": "AWS CloudTrail" },
-            { "id": "c", "text": "AWS Auto Scaling" },
-            { "id": "d", "text": "Amazon Inspector" }
+            {
+                "id": "a",
+                "text": "Enable S3 default encryption with SSE-S3 and use HTTPS for data transfer"
+            },
+            { "id": "b", "text": "Store data unencrypted and rely on IAM policies for security" },
+            { "id": "c", "text": "Use S3 versioning to protect data" },
+            { "id": "d", "text": "Enable transfer acceleration" }
         ],
-        "correctOptionIds": ["c"],
-        "explanation": "AWS Auto Scaling automatically adjusts capacity based on demand, maintaining consistent performance during spikes.",
+        "correctOptionIds": ["a"],
+        "explanation": "SSE-S3 encrypts data at rest automatically, and HTTPS ensures encryption in transit.",
         "difficulty": "easy"
     },
     {
-        "id": "sec-1",
-        "domain": "Security and Compliance",
+        "id": "arch-1",
+        "domain": "Architecture and Design",
         "type": "multi",
-        "question": "A company stores sensitive customer data in S3. Which TWO actions improve data security and compliance?",
+        "question": "A solution architect must design a fault-tolerant web application hosted on EC2 instances. Which TWO design choices ensure high availability?",
         "options": [
-            { "id": "a", "text": "Enable S3 server-side encryption (SSE-S3 or SSE-KMS)" },
-            { "id": "b", "text": "Grant public read access to the bucket" },
-            { "id": "c", "text": "Use IAM policies with least privilege access" },
-            { "id": "d", "text": "Disable S3 versioning" }
+            { "id": "a", "text": "Deploy EC2 instances across multiple Availability Zones" },
+            { "id": "b", "text": "Use an Application Load Balancer" },
+            { "id": "c", "text": "Host the app on a single EC2 instance" },
+            { "id": "d", "text": "Disable Auto Scaling" },
+            { "id": "e", "text": "Use spot instances only" }
         ],
-        "correctOptionIds": ["a", "c"],
-        "explanation": "Encrypting data and using least privilege IAM policies protect sensitive data and comply with best practices.",
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Multi-AZ deployment and load balancing provide resilience and availability across failures.",
         "difficulty": "medium"
     },
     {
         "id": "net-1",
         "domain": "Networking",
         "type": "single",
-        "question": "An application running in a private subnet must access the internet for software updates. What should be configured?",
+        "question": "A company has a hybrid architecture connecting on-premises and AWS. Which AWS service provides a dedicated private connection?",
         "options": [
-            { "id": "a", "text": "Internet Gateway" },
-            { "id": "b", "text": "NAT Gateway" },
-            { "id": "c", "text": "VPC Peering Connection" },
-            { "id": "d", "text": "AWS Direct Connect" }
+            { "id": "a", "text": "AWS Direct Connect" },
+            { "id": "b", "text": "AWS VPN CloudHub" },
+            { "id": "c", "text": "Amazon CloudFront" },
+            { "id": "d", "text": "AWS Transit Gateway" }
         ],
-        "correctOptionIds": ["b"],
-        "explanation": "A NAT Gateway allows instances in a private subnet to initiate outbound connections to the internet securely.",
-        "difficulty": "easy"
+        "correctOptionIds": ["a"],
+        "explanation": "AWS Direct Connect provides a dedicated, private network connection between on-premises and AWS.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-1",
+        "domain": "High Availability and Scalability",
+        "type": "multi",
+        "question": "A web application experiences unpredictable spikes in traffic. Which TWO features can automatically handle demand increases?",
+        "options": [
+            { "id": "a", "text": "Amazon EC2 Auto Scaling" },
+            { "id": "b", "text": "AWS Lambda with concurrency scaling" },
+            { "id": "c", "text": "Amazon S3 Transfer Acceleration" },
+            { "id": "d", "text": "Static EC2 instance scaling" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Auto Scaling and Lambda concurrency adjust capacity dynamically to maintain performance.",
+        "difficulty": "medium"
     },
     {
         "id": "cloud-1",
         "domain": "Cloud Concepts",
         "type": "single",
-        "question": "Which AWS feature provides a way to estimate the cost of running workloads before deployment?",
+        "question": "Which AWS feature allows customers to pay only for the compute time they use?",
         "options": [
-            { "id": "a", "text": "AWS Cost Explorer" },
-            { "id": "b", "text": "AWS Budgets" },
-            { "id": "c", "text": "AWS Pricing Calculator" },
-            { "id": "d", "text": "AWS Trusted Advisor" }
+            { "id": "a", "text": "Pay-as-you-go pricing" },
+            { "id": "b", "text": "Reserved pricing model" },
+            { "id": "c", "text": "Enterprise license" },
+            { "id": "d", "text": "Dedicated pricing model" }
         ],
-        "correctOptionIds": ["c"],
-        "explanation": "AWS Pricing Calculator lets users estimate costs based on expected usage before deployment.",
+        "correctOptionIds": ["a"],
+        "explanation": "AWS offers a pay-as-you-go model, charging only for consumed resources.",
         "difficulty": "easy"
-    },
-    {
-        "id": "ha-2",
-        "domain": "High Availability and Scalability",
-        "type": "multi",
-        "question": "A global e-commerce site needs minimal downtime and low latency for users worldwide. Which TWO strategies help achieve this?",
-        "options": [
-            { "id": "a", "text": "Deploy applications across multiple AWS Regions" },
-            { "id": "b", "text": "Use CloudFront for content delivery" },
-            { "id": "c", "text": "Use a single Availability Zone deployment" },
-            { "id": "d", "text": "Manually scale EC2 instances during traffic peaks" }
-        ],
-        "correctOptionIds": ["a", "b"],
-        "explanation": "Deploying across Regions ensures global redundancy, and CloudFront reduces latency through edge caching.",
-        "difficulty": "hard"
-    },
-    {
-        "id": "arch-3",
-        "domain": "Architecture and Design",
-        "type": "single",
-        "question": "Which design pattern improves resiliency by decoupling components of an application?",
-        "options": [
-            { "id": "a", "text": "Monolithic architecture" },
-            { "id": "b", "text": "Tightly coupled integration" },
-            { "id": "c", "text": "Event-driven architecture using Amazon SNS or SQS" },
-            { "id": "d", "text": "Single-threaded processing" }
-        ],
-        "correctOptionIds": ["c"],
-        "explanation": "Event-driven architectures using SNS or SQS decouple components, enhancing fault tolerance and scalability.",
-        "difficulty": "medium"
     },
     {
         "id": "sec-2",
         "domain": "Security and Compliance",
         "type": "single",
-        "question": "An AWS account administrator wants to enforce multi-factor authentication (MFA) for all console logins. Which service is used?",
+        "question": "Which AWS service helps detect unauthorized configuration changes in AWS resources?",
         "options": [
-            { "id": "a", "text": "AWS CloudTrail" },
-            { "id": "b", "text": "AWS Config" },
-            { "id": "c", "text": "AWS IAM" },
+            { "id": "a", "text": "AWS Config" },
+            { "id": "b", "text": "AWS CloudTrail" },
+            { "id": "c", "text": "Amazon GuardDuty" },
+            { "id": "d", "text": "AWS Trusted Advisor" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "AWS Config continuously monitors and records resource configurations for compliance and change detection.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-2",
+        "domain": "High Availability and Scalability",
+        "type": "single",
+        "question": "Which AWS feature distributes incoming traffic across multiple EC2 instances?",
+        "options": [
+            { "id": "a", "text": "Elastic Load Balancing" },
+            { "id": "b", "text": "Amazon CloudWatch" },
+            { "id": "c", "text": "AWS Trusted Advisor" },
             { "id": "d", "text": "AWS Shield" }
         ],
-        "correctOptionIds": ["c"],
-        "explanation": "IAM enables MFA enforcement for user logins, adding an additional security layer for console access.",
+        "correctOptionIds": ["a"],
+        "explanation": "Elastic Load Balancing improves availability by distributing traffic across multiple targets.",
         "difficulty": "easy"
+    },
+    {
+        "id": "arch-2",
+        "domain": "Architecture and Design",
+        "type": "single",
+        "question": "A company is migrating to AWS and needs a design that supports loose coupling between components. Which approach should the architect use?",
+        "options": [
+            { "id": "a", "text": "Use Amazon SQS to decouple application tiers" },
+            { "id": "b", "text": "Deploy all components on one EC2 instance" },
+            { "id": "c", "text": "Use synchronous REST API calls only" },
+            { "id": "d", "text": "Run all workloads on a single database" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Amazon SQS enables asynchronous communication between decoupled components.",
+        "difficulty": "medium"
     },
     {
         "id": "net-2",
         "domain": "Networking",
         "type": "multi",
-        "question": "A company wants to establish a secure, low-latency hybrid connection between its data center and AWS. Which TWO solutions meet this requirement?",
+        "question": "Which TWO features of Amazon VPC help control network traffic at the subnet and instance level?",
         "options": [
-            { "id": "a", "text": "AWS Direct Connect" },
-            { "id": "b", "text": "VPN over the public internet" },
-            { "id": "c", "text": "AWS Site-to-Site VPN" },
-            { "id": "d", "text": "AWS Transit Gateway only" },
-            { "id": "e", "text": "VPC Endpoint" }
+            { "id": "a", "text": "Network ACLs" },
+            { "id": "b", "text": "Security Groups" },
+            { "id": "c", "text": "Elastic IPs" },
+            { "id": "d", "text": "Route 53 health checks" }
         ],
-        "correctOptionIds": ["a", "c"],
-        "explanation": "Direct Connect provides a dedicated, low-latency connection, and Site-to-Site VPN ensures encrypted communication as backup or primary link.",
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Network ACLs act at the subnet level, while Security Groups operate at the instance level.",
         "difficulty": "medium"
     },
     {
         "id": "cloud-2",
         "domain": "Cloud Concepts",
         "type": "single",
-        "question": "Which AWS pricing model offers the most cost savings for steady-state workloads?",
+        "question": "What is the main advantage of using AWS managed services?",
         "options": [
-            { "id": "a", "text": "On-Demand Instances" },
-            { "id": "b", "text": "Spot Instances" },
-            { "id": "c", "text": "Reserved Instances" },
-            { "id": "d", "text": "Savings Plans" }
+            { "id": "a", "text": "Reduces the need for infrastructure management" },
+            { "id": "b", "text": "Gives full control of hardware resources" },
+            { "id": "c", "text": "Requires manual patching" },
+            { "id": "d", "text": "Increases operational burden" }
         ],
-        "correctOptionIds": ["c"],
-        "explanation": "Reserved Instances provide significant discounts for predictable, long-term workloads compared to on-demand pricing.",
+        "correctOptionIds": ["a"],
+        "explanation": "AWS managed services handle operational tasks, reducing administrative overhead.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "arch-3",
+        "domain": "Architecture and Design",
+        "type": "multi",
+        "question": "A company wants to improve the durability of their data stored in Amazon S3. Which TWO design principles help achieve this?",
+        "options": [
+            { "id": "a", "text": "Enable S3 Versioning" },
+            { "id": "b", "text": "Enable Cross-Region Replication (CRR)" },
+            { "id": "c", "text": "Use reduced redundancy storage (RRS)" },
+            { "id": "d", "text": "Store data in a single Availability Zone" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Versioning protects against accidental deletions, and CRR adds redundancy across regions.",
         "difficulty": "medium"
+    },
+    {
+        "id": "ha-3",
+        "domain": "High Availability and Scalability",
+        "type": "single",
+        "question": "A company wants their application to handle sudden traffic spikes automatically. Which AWS feature provides this functionality?",
+        "options": [
+            { "id": "a", "text": "EC2 Auto Scaling" },
+            { "id": "b", "text": "Amazon EBS" },
+            { "id": "c", "text": "AWS Config" },
+            { "id": "d", "text": "AWS CloudFormation" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "EC2 Auto Scaling dynamically adjusts instance counts based on demand.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "sec-3",
+        "domain": "Security and Compliance",
+        "type": "multi",
+        "question": "Which TWO AWS services help protect web applications from common exploits and DDoS attacks?",
+        "options": [
+            { "id": "a", "text": "AWS Shield" },
+            { "id": "b", "text": "AWS WAF" },
+            { "id": "c", "text": "AWS Config" },
+            { "id": "d", "text": "AWS Secrets Manager" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "AWS Shield mitigates DDoS attacks, while AWS WAF blocks common web exploits.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "net-3",
+        "domain": "Networking",
+        "type": "single",
+        "question": "A developer needs to route requests to different endpoints based on the hostname in a web application. Which Route 53 routing policy should be used?",
+        "options": [
+            { "id": "a", "text": "Latency-based routing" },
+            { "id": "b", "text": "Weighted routing" },
+            { "id": "c", "text": "Geolocation routing" },
+            { "id": "d", "text": "Simple routing" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Latency-based routing improves performance by directing traffic to the region with the lowest latency.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "arch-4",
+        "domain": "Architecture and Design",
+        "type": "single",
+        "question": "A startup needs to deploy a stateless application rapidly with minimal infrastructure management. Which AWS service is most suitable?",
+        "options": [
+            { "id": "a", "text": "AWS Elastic Beanstalk" },
+            { "id": "b", "text": "Amazon EC2" },
+            { "id": "c", "text": "Amazon EFS" },
+            { "id": "d", "text": "AWS Batch" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Elastic Beanstalk handles provisioning, deployment, and scaling automatically for applications.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "ha-4",
+        "domain": "High Availability and Scalability",
+        "type": "multi",
+        "question": "A solution architect must ensure a global application remains available even if an AWS Region becomes unavailable. Which TWO services can help achieve this?",
+        "options": [
+            { "id": "a", "text": "Amazon Route 53 failover routing" },
+            { "id": "b", "text": "Cross-Region replication" },
+            { "id": "c", "text": "Single AZ deployment" },
+            { "id": "d", "text": "Manual DNS failover only" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Failover routing and cross-region replication maintain service continuity during regional outages.",
+        "difficulty": "hard"
+    },
+    {
+        "id": "cloud-3",
+        "domain": "Cloud Concepts",
+        "type": "multi",
+        "question": "Which TWO advantages are provided by the AWS Cloud compared to traditional data centers?",
+        "options": [
+            { "id": "a", "text": "Elasticity and scalability" },
+            { "id": "b", "text": "Manual capacity planning" },
+            { "id": "c", "text": "Pay-as-you-go pricing" },
+            { "id": "d", "text": "Upfront hardware purchases" }
+        ],
+        "correctOptionIds": ["a", "c"],
+        "explanation": "AWS provides elasticity, scalability, and pay-as-you-go pricing to reduce costs and increase agility.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "net-4",
+        "domain": "Networking",
+        "type": "multi",
+        "question": "Which TWO features of Amazon CloudFront improve content delivery performance?",
+        "options": [
+            { "id": "a", "text": "Edge locations caching" },
+            { "id": "b", "text": "Origin Access Identity (OAI)" },
+            { "id": "c", "text": "Geo-restriction" },
+            { "id": "d", "text": "AWS CloudFormation templates" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Edge caching reduces latency, and OAI secures S3 origins for better performance and security.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "sec-4",
+        "domain": "Security and Compliance",
+        "type": "single",
+        "question": "Which AWS service allows you to manage secrets and rotate credentials automatically?",
+        "options": [
+            { "id": "a", "text": "AWS Secrets Manager" },
+            { "id": "b", "text": "AWS Config" },
+            { "id": "c", "text": "Amazon Macie" },
+            { "id": "d", "text": "AWS Systems Manager Session Manager" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Secrets Manager securely stores and rotates database credentials and API keys automatically.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "arch-5",
+        "domain": "Architecture and Design",
+        "type": "multi",
+        "question": "Which TWO services are best suited for designing a decoupled serverless architecture?",
+        "options": [
+            { "id": "a", "text": "Amazon SQS" },
+            { "id": "b", "text": "AWS Lambda" },
+            { "id": "c", "text": "Amazon EC2" },
+            { "id": "d", "text": "AWS Snowball" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "SQS queues decouple components, and Lambda processes events serverlessly.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-5",
+        "domain": "High Availability and Scalability",
+        "type": "single",
+        "question": "What AWS service allows scaling database read capacity independently from write capacity?",
+        "options": [
+            { "id": "a", "text": "Amazon RDS Read Replicas" },
+            { "id": "b", "text": "Amazon S3 Cross-Region Replication" },
+            { "id": "c", "text": "AWS Data Pipeline" },
+            { "id": "d", "text": "Amazon EFS" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "RDS Read Replicas provide horizontal scalability for read-heavy workloads.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "net-5",
+        "domain": "Networking",
+        "type": "single",
+        "question": "Which AWS service helps manage and interconnect multiple VPCs efficiently?",
+        "options": [
+            { "id": "a", "text": "AWS Transit Gateway" },
+            { "id": "b", "text": "AWS Direct Connect" },
+            { "id": "c", "text": "AWS VPN" },
+            { "id": "d", "text": "Amazon Route 53" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Transit Gateway simplifies inter-VPC and hybrid connectivity management.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "cloud-4",
+        "domain": "Cloud Concepts",
+        "type": "single",
+        "question": "Which AWS pricing model offers the biggest savings for predictable, long-term workloads?",
+        "options": [
+            { "id": "a", "text": "Reserved Instances" },
+            { "id": "b", "text": "On-Demand Instances" },
+            { "id": "c", "text": "Spot Instances" },
+            { "id": "d", "text": "Dedicated Hosts" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Reserved Instances provide up to 72% savings for predictable workloads with 1 or 3-year terms.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "sec-5",
+        "domain": "Security and Compliance",
+        "type": "multi",
+        "question": "Which TWO services assist with auditing and compliance reporting in AWS?",
+        "options": [
+            { "id": "a", "text": "AWS CloudTrail" },
+            { "id": "b", "text": "AWS Config" },
+            { "id": "c", "text": "Amazon SNS" },
+            { "id": "d", "text": "AWS Global Accelerator" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "CloudTrail records API activity, while Config tracks resource configurations for compliance.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "arch-6",
+        "domain": "Architecture and Design",
+        "type": "single",
+        "question": "Which database solution is ideal for storing and querying large amounts of time-series IoT data?",
+        "options": [
+            { "id": "a", "text": "Amazon Timestream" },
+            { "id": "b", "text": "Amazon RDS" },
+            { "id": "c", "text": "Amazon Redshift" },
+            { "id": "d", "text": "AWS Glue" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Timestream is optimized for time-series data such as IoT metrics.",
+        "difficulty": "medium"
+    },
+
+    {
+        "id": "ha-6",
+        "domain": "High Availability and Scalability",
+        "type": "multi",
+        "question": "A company wants to ensure its Amazon RDS database automatically recovers from instance failure with minimal downtime. Which TWO configurations meet this requirement?",
+        "options": [
+            { "id": "a", "text": "Enable Multi-AZ deployment" },
+            { "id": "b", "text": "Use automated backups" },
+            { "id": "c", "text": "Deploy in a single Availability Zone only" },
+            { "id": "d", "text": "Disable deletion protection" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Multi-AZ ensures automatic failover, while automated backups help restore data quickly.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "cloud-5",
+        "domain": "Cloud Concepts",
+        "type": "single",
+        "question": "Which AWS service provides an overview of estimated charges and service usage?",
+        "options": [
+            { "id": "a", "text": "AWS Cost Explorer" },
+            { "id": "b", "text": "AWS Trusted Advisor" },
+            { "id": "c", "text": "AWS CloudTrail" },
+            { "id": "d", "text": "Amazon CloudWatch" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "AWS Cost Explorer helps visualize, understand, and manage AWS spending.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "net-6",
+        "domain": "Networking",
+        "type": "multi",
+        "question": "Which TWO configurations are required to enable a public subnet in a VPC?",
+        "options": [
+            { "id": "a", "text": "Attach an Internet Gateway to the VPC" },
+            {
+                "id": "b",
+                "text": "Add a route to 0.0.0.0/0 in the route table pointing to the Internet Gateway"
+            },
+            { "id": "c", "text": "Use a NAT Gateway for inbound connections" },
+            { "id": "d", "text": "Disable DNS resolution in the subnet" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "A public subnet requires an Internet Gateway and a route to it in the subnet's route table.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "arch-7",
+        "domain": "Architecture and Design",
+        "type": "single",
+        "question": "Which AWS service should be used to build event-driven applications that react to changes in S3 or DynamoDB?",
+        "options": [
+            { "id": "a", "text": "AWS Lambda" },
+            { "id": "b", "text": "Amazon EC2" },
+            { "id": "c", "text": "AWS Batch" },
+            { "id": "d", "text": "Amazon Elastic Container Service" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "AWS Lambda can be triggered by events from services like S3 or DynamoDB.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "sec-6",
+        "domain": "Security and Compliance",
+        "type": "single",
+        "question": "Which AWS service enables encryption of EBS volumes using customer-managed keys?",
+        "options": [
+            { "id": "a", "text": "AWS Key Management Service (KMS)" },
+            { "id": "b", "text": "AWS Config" },
+            { "id": "c", "text": "AWS Secrets Manager" },
+            { "id": "d", "text": "Amazon Macie" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "KMS manages encryption keys used to encrypt EBS volumes and other AWS resources.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-7",
+        "domain": "High Availability and Scalability",
+        "type": "single",
+        "question": "Which AWS service automatically adjusts the number of running instances based on performance metrics?",
+        "options": [
+            { "id": "a", "text": "Amazon EC2 Auto Scaling" },
+            { "id": "b", "text": "AWS Elastic Beanstalk" },
+            { "id": "c", "text": "AWS Lambda" },
+            { "id": "d", "text": "AWS CloudFormation" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "EC2 Auto Scaling uses CloudWatch metrics to maintain performance and availability.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "arch-8",
+        "domain": "Architecture and Design",
+        "type": "multi",
+        "question": "Which TWO design principles support operational excellence in AWS architecture?",
+        "options": [
+            { "id": "a", "text": "Automate manual processes" },
+            { "id": "b", "text": "Document all processes manually" },
+            { "id": "c", "text": "Test recovery procedures regularly" },
+            { "id": "d", "text": "Use monolithic architecture" }
+        ],
+        "correctOptionIds": ["a", "c"],
+        "explanation": "Automation and regular testing align with AWS Well-Architected operational excellence best practices.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "net-7",
+        "domain": "Networking",
+        "type": "single",
+        "question": "Which AWS service provides secure, private communication between VPCs across different accounts?",
+        "options": [
+            { "id": "a", "text": "VPC Peering" },
+            { "id": "b", "text": "AWS Site-to-Site VPN" },
+            { "id": "c", "text": "AWS Global Accelerator" },
+            { "id": "d", "text": "AWS CloudFront" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "VPC peering allows private communication between VPCs without traversing the internet.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "cloud-6",
+        "domain": "Cloud Concepts",
+        "type": "multi",
+        "question": "Which TWO characteristics describe AWS availability zones?",
+        "options": [
+            { "id": "a", "text": "Each AZ is physically isolated" },
+            { "id": "b", "text": "Each AZ has independent power and networking" },
+            { "id": "c", "text": "All AZs share the same physical data center" },
+            { "id": "d", "text": "AZs cannot communicate with each other" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "AZs are physically separated with independent infrastructure to ensure fault tolerance.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "sec-7",
+        "domain": "Security and Compliance",
+        "type": "multi",
+        "question": "Which TWO AWS services can automatically identify and classify sensitive data in S3 buckets?",
+        "options": [
+            { "id": "a", "text": "Amazon Macie" },
+            { "id": "b", "text": "AWS GuardDuty" },
+            { "id": "c", "text": "AWS Config" },
+            { "id": "d", "text": "AWS Inspector" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Macie detects and classifies sensitive data, while GuardDuty monitors for malicious behavior.",
+        "difficulty": "hard"
+    },
+    {
+        "id": "ha-8",
+        "domain": "High Availability and Scalability",
+        "type": "single",
+        "question": "Which AWS feature allows you to distribute workloads globally with low latency?",
+        "options": [
+            { "id": "a", "text": "Amazon CloudFront" },
+            { "id": "b", "text": "AWS Backup" },
+            { "id": "c", "text": "AWS Config" },
+            { "id": "d", "text": "AWS CloudTrail" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "CloudFront caches content at edge locations to reduce latency globally.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "arch-9",
+        "domain": "Architecture and Design",
+        "type": "single",
+        "question": "Which AWS service helps automate infrastructure provisioning using code templates?",
+        "options": [
+            { "id": "a", "text": "AWS CloudFormation" },
+            { "id": "b", "text": "AWS Config" },
+            { "id": "c", "text": "AWS OpsWorks" },
+            { "id": "d", "text": "AWS Glue" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "CloudFormation provisions infrastructure through code templates for consistent deployments.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "cloud-7",
+        "domain": "Cloud Concepts",
+        "type": "single",
+        "question": "Which concept describes scaling resources up or down automatically based on workload demand?",
+        "options": [
+            { "id": "a", "text": "Elasticity" },
+            { "id": "b", "text": "Reliability" },
+            { "id": "c", "text": "Availability" },
+            { "id": "d", "text": "Durability" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Elasticity allows AWS resources to scale dynamically based on load changes.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "net-8",
+        "domain": "Networking",
+        "type": "multi",
+        "question": "Which TWO AWS services improve hybrid network connectivity and performance?",
+        "options": [
+            { "id": "a", "text": "AWS Direct Connect" },
+            { "id": "b", "text": "AWS Global Accelerator" },
+            { "id": "c", "text": "AWS Lambda" },
+            { "id": "d", "text": "AWS CloudTrail" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Direct Connect provides private connectivity, while Global Accelerator optimizes routing for latency.",
+        "difficulty": "hard"
+    },
+    {
+        "id": "arch-10",
+        "domain": "Architecture and Design",
+        "type": "multi",
+        "question": "A company needs to reduce costs by moving infrequently accessed data to a lower-cost storage tier without losing availability. Which TWO S3 storage classes meet this need?",
+        "options": [
+            { "id": "a", "text": "S3 Standard-Infrequent Access (S3 Standard-IA)" },
+            { "id": "b", "text": "S3 Glacier Instant Retrieval" },
+            { "id": "c", "text": "S3 One Zone-IA" },
+            { "id": "d", "text": "S3 Standard" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "S3 Standard-IA and Glacier Instant Retrieval balance lower cost with accessibility for infrequently accessed data.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-9",
+        "domain": "High Availability and Scalability",
+        "type": "multi",
+        "question": "A global e-commerce site must maintain low-latency user experiences worldwide. Which TWO AWS services should be combined to achieve this?",
+        "options": [
+            { "id": "a", "text": "Amazon CloudFront" },
+            { "id": "b", "text": "AWS Global Accelerator" },
+            { "id": "c", "text": "AWS Backup" },
+            { "id": "d", "text": "Amazon Inspector" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "CloudFront caches content at edge locations, while Global Accelerator routes traffic through optimized paths for low latency.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "sec-8",
+        "domain": "Security and Compliance",
+        "type": "single",
+        "question": "Which AWS service provides centralized management of access control across multiple AWS accounts?",
+        "options": [
+            { "id": "a", "text": "AWS Organizations" },
+            { "id": "b", "text": "AWS Shield" },
+            { "id": "c", "text": "AWS Trusted Advisor" },
+            { "id": "d", "text": "Amazon GuardDuty" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "AWS Organizations lets administrators manage policies and permissions across multiple AWS accounts.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "cloud-8",
+        "domain": "Cloud Concepts",
+        "type": "multi",
+        "question": "Which TWO benefits are examples of operational resilience in AWS cloud design?",
+        "options": [
+            { "id": "a", "text": "Fault-tolerant infrastructure" },
+            { "id": "b", "text": "Manual failover procedures" },
+            { "id": "c", "text": "Automated scaling and recovery" },
+            { "id": "d", "text": "Dependence on on-premises backup" }
+        ],
+        "correctOptionIds": ["a", "c"],
+        "explanation": "AWS promotes resilience through fault-tolerance and automation that minimizes human intervention.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "net-9",
+        "domain": "Networking",
+        "type": "single",
+        "question": "A company needs to securely connect its VPC to on-premises servers using the public internet. Which service accomplishes this?",
+        "options": [
+            { "id": "a", "text": "AWS Site-to-Site VPN" },
+            { "id": "b", "text": "AWS Direct Connect" },
+            { "id": "c", "text": "AWS DataSync" },
+            { "id": "d", "text": "AWS CloudFormation" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Site-to-Site VPN establishes an encrypted connection over the public internet to link on-premises with a VPC.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "arch-11",
+        "domain": "Architecture and Design",
+        "type": "single",
+        "question": "Which AWS service enables application deployment using containers without managing servers?",
+        "options": [
+            { "id": "a", "text": "AWS Fargate" },
+            { "id": "b", "text": "Amazon ECS (EC2 launch type)" },
+            { "id": "c", "text": "Amazon EC2" },
+            { "id": "d", "text": "AWS Batch" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "AWS Fargate allows container deployment without managing EC2 instances or servers.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-10",
+        "domain": "High Availability and Scalability",
+        "type": "single",
+        "question": "Which AWS service provides automatic load balancing across multiple targets like EC2, ECS, and Lambda?",
+        "options": [
+            { "id": "a", "text": "Elastic Load Balancing (ELB)" },
+            { "id": "b", "text": "AWS Transit Gateway" },
+            { "id": "c", "text": "AWS CloudFormation" },
+            { "id": "d", "text": "AWS Config" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "ELB distributes incoming application traffic to multiple targets, increasing availability and fault tolerance.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "sec-9",
+        "domain": "Security and Compliance",
+        "type": "multi",
+        "question": "Which TWO AWS services assist with continuous threat detection in an AWS environment?",
+        "options": [
+            { "id": "a", "text": "Amazon GuardDuty" },
+            { "id": "b", "text": "AWS Security Hub" },
+            { "id": "c", "text": "AWS CloudFormation" },
+            { "id": "d", "text": "AWS Backup" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "GuardDuty provides intelligent threat detection, and Security Hub aggregates and prioritizes findings.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "cloud-9",
+        "domain": "Cloud Concepts",
+        "type": "single",
+        "question": "Which AWS concept describes the ability to recover quickly from failures to meet business continuity goals?",
+        "options": [
+            { "id": "a", "text": "Resiliency" },
+            { "id": "b", "text": "Elasticity" },
+            { "id": "c", "text": "Scalability" },
+            { "id": "d", "text": "Agility" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Resiliency refers to designing systems to recover rapidly from infrastructure or service disruptions.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "sec-10",
+        "domain": "Security and Compliance",
+        "type": "single",
+        "question": "Which AWS service provides centralized governance and policy enforcement across multiple AWS accounts?",
+        "options": [
+            { "id": "a", "text": "AWS Control Tower" },
+            { "id": "b", "text": "AWS Identity and Access Management (IAM)" },
+            { "id": "c", "text": "AWS Config" },
+            { "id": "d", "text": "AWS Trusted Advisor" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Control Tower automates account setup and enforces guardrails for governance across AWS accounts.",
+        "difficulty": "hard"
+    },
+    {
+        "id": "net-10",
+        "domain": "Networking",
+        "type": "multi",
+        "question": "A company needs to enable private communication between multiple AWS Regions. Which TWO services can help?",
+        "options": [
+            { "id": "a", "text": "VPC Peering (inter-region)" },
+            { "id": "b", "text": "AWS Transit Gateway inter-region peering" },
+            { "id": "c", "text": "AWS CloudFront" },
+            { "id": "d", "text": "Amazon Route 53 simple routing" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Both VPC and Transit Gateway inter-region peering allow private network traffic between Regions without public internet use.",
+        "difficulty": "hard"
+    },
+    {
+        "id": "sec-11",
+        "domain": "Security and Compliance",
+        "type": "multi",
+        "question": "Which TWO AWS services provide identity federation and single sign-on capabilities?",
+        "options": [
+            { "id": "a", "text": "AWS IAM Identity Center (SSO)" },
+            { "id": "b", "text": "Amazon Cognito" },
+            { "id": "c", "text": "AWS Key Management Service" },
+            { "id": "d", "text": "AWS Secrets Manager" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "IAM Identity Center and Cognito provide user authentication, federation, and access management across AWS and apps.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "arch-12",
+        "domain": "Architecture and Design",
+        "type": "multi",
+        "question": "Which TWO AWS services can be used to build a data analytics pipeline that processes and visualizes data in real time?",
+        "options": [
+            { "id": "a", "text": "Amazon Kinesis Data Streams" },
+            { "id": "b", "text": "Amazon QuickSight" },
+            { "id": "c", "text": "AWS CloudTrail" },
+            { "id": "d", "text": "AWS Backup" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Kinesis handles real-time data ingestion and processing, while QuickSight provides visualization.",
+        "difficulty": "hard"
+    },
+    {
+        "id": "sec-12",
+        "domain": "Security and Compliance",
+        "type": "single",
+        "question": "Which AWS service provides managed Distributed Denial of Service (DDoS) protection for AWS resources?",
+        "options": [
+            { "id": "a", "text": "AWS Shield" },
+            { "id": "b", "text": "Amazon Macie" },
+            { "id": "c", "text": "AWS Inspector" },
+            { "id": "d", "text": "AWS CloudTrail" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "AWS Shield offers managed protection against DDoS attacks, with Shield Advanced adding enhanced features.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "sec-13",
+        "domain": "Security and Compliance",
+        "type": "multi",
+        "question": "Which TWO AWS services provide vulnerability scanning and compliance checks for workloads?",
+        "options": [
+            { "id": "a", "text": "Amazon Inspector" },
+            { "id": "b", "text": "AWS Security Hub" },
+            { "id": "c", "text": "AWS CloudFormation" },
+            { "id": "d", "text": "Amazon S3" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Inspector scans for vulnerabilities, while Security Hub aggregates findings across AWS environments for compliance visibility.",
+        "difficulty": "hard"
+    },
+    {
+        "id": "arch-13",
+        "domain": "Architecture and Design",
+        "type": "single",
+        "question": "A company needs to deploy an application that runs on Docker containers and wants to use fully managed orchestration. Which service should they use?",
+        "options": [
+            { "id": "a", "text": "Amazon Elastic Kubernetes Service (EKS)" },
+            { "id": "b", "text": "AWS Batch" },
+            { "id": "c", "text": "Amazon EC2 Auto Scaling" },
+            { "id": "d", "text": "AWS Lambda" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "EKS is a fully managed Kubernetes service that simplifies container orchestration and scaling.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-11",
+        "domain": "High Availability and Scalability",
+        "type": "multi",
+        "question": "A company must deploy an application in multiple AWS Regions for disaster recovery. Which TWO strategies ensure failover and continuity?",
+        "options": [
+            { "id": "a", "text": "Use Route 53 with health checks and failover routing" },
+            { "id": "b", "text": "Replicate data using Amazon S3 Cross-Region Replication" },
+            { "id": "c", "text": "Deploy only in one Availability Zone" },
+            { "id": "d", "text": "Rely solely on CloudWatch metrics" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Route 53 handles DNS failover while S3 CRR ensures data availability in another Region.",
+        "difficulty": "hard"
+    },
+    {
+        "id": "arch-14",
+        "domain": "Architecture and Design",
+        "type": "multi",
+        "question": "Which TWO design practices improve performance and cost efficiency in AWS architectures?",
+        "options": [
+            { "id": "a", "text": "Implement caching with Amazon CloudFront" },
+            { "id": "b", "text": "Use Auto Scaling to match demand" },
+            { "id": "c", "text": "Provision resources for peak traffic at all times" },
+            { "id": "d", "text": "Disable monitoring to reduce costs" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "CloudFront caching reduces latency, and Auto Scaling optimizes resource usage for cost efficiency.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-12",
+        "domain": "High Availability and Scalability",
+        "type": "single",
+        "question": "Which AWS database automatically scales storage capacity without downtime?",
+        "options": [
+            { "id": "a", "text": "Amazon Aurora" },
+            { "id": "b", "text": "Amazon RDS for MySQL" },
+            { "id": "c", "text": "Amazon Redshift" },
+            { "id": "d", "text": "Amazon Neptune" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Amazon Aurora automatically grows storage up to 128TB with no downtime.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "arch-15",
+        "domain": "Architecture and Design",
+        "type": "multi",
+        "question": "A company wants to decouple microservices and improve application resilience. Which TWO services should they use?",
+        "options": [
+            { "id": "a", "text": "Amazon SNS" },
+            { "id": "b", "text": "Amazon SQS" },
+            { "id": "c", "text": "AWS CloudFormation" },
+            { "id": "d", "text": "AWS Systems Manager" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "SNS and SQS enable event-driven communication and decoupling between distributed components.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-13",
+        "domain": "High Availability and Scalability",
+        "type": "multi",
+        "question": "Which TWO features help ensure horizontal scaling and fault tolerance for stateless web applications?",
+        "options": [
+            { "id": "a", "text": "Elastic Load Balancing" },
+            { "id": "b", "text": "Auto Scaling groups" },
+            { "id": "c", "text": "EC2 instance store for persistent data" },
+            { "id": "d", "text": "Hard-coded server IPs in configuration" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "ELB distributes load across multiple instances, and Auto Scaling adjusts capacity dynamically.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "arch-16",
+        "domain": "Architecture and Design",
+        "type": "single",
+        "question": "Which AWS database service is most suitable for high-speed key-value data access?",
+        "options": [
+            { "id": "a", "text": "Amazon DynamoDB" },
+            { "id": "b", "text": "Amazon RDS" },
+            { "id": "c", "text": "Amazon Aurora" },
+            { "id": "d", "text": "Amazon Neptune" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "DynamoDB provides single-digit millisecond latency for key-value and document data.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "ha-14",
+        "domain": "High Availability and Scalability",
+        "type": "single",
+        "question": "Which AWS service helps scale out containerized workloads automatically?",
+        "options": [
+            { "id": "a", "text": "Amazon ECS with Service Auto Scaling" },
+            { "id": "b", "text": "AWS CloudFormation" },
+            { "id": "c", "text": "Amazon CloudWatch" },
+            { "id": "d", "text": "AWS Glue" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "ECS Service Auto Scaling adjusts container counts based on CloudWatch metrics for scalable workloads.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "arch-17",
+        "domain": "Architecture and Design",
+        "type": "multi",
+        "question": "Which TWO AWS services help implement Infrastructure as Code (IaC)?",
+        "options": [
+            { "id": "a", "text": "AWS CloudFormation" },
+            { "id": "b", "text": "AWS CDK (Cloud Development Kit)" },
+            { "id": "c", "text": "Amazon CloudFront" },
+            { "id": "d", "text": "AWS Control Tower" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "CloudFormation and CDK both allow you to define and deploy AWS infrastructure programmatically.",
+        "difficulty": "medium"
+    },
+    {
+        "id": "ha-15",
+        "domain": "High Availability and Scalability",
+        "type": "multi",
+        "question": "Which TWO AWS services can automatically replicate data across multiple Availability Zones for durability?",
+        "options": [
+            { "id": "a", "text": "Amazon S3" },
+            { "id": "b", "text": "Amazon DynamoDB" },
+            { "id": "c", "text": "Amazon EC2 instance store" },
+            { "id": "d", "text": "AWS Glue" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Both S3 and DynamoDB store data redundantly across multiple AZs for high availability and durability.",
+        "difficulty": "easy"
+    },
+    {
+        "id": "ha-16",
+        "domain": "High Availability and Scalability",
+        "type": "single",
+        "question": "Which service can improve application performance by caching content at the network edge?",
+        "options": [
+            { "id": "a", "text": "Amazon CloudFront" },
+            { "id": "b", "text": "AWS Global Accelerator" },
+            { "id": "c", "text": "AWS CloudTrail" },
+            { "id": "d", "text": "AWS Config" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "CloudFront caches content at edge locations for low-latency delivery worldwide.",
+        "difficulty": "easy"
     }
 ]

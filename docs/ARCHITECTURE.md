@@ -31,7 +31,7 @@ The `features/exams` folder is the single entry point for anything exam-related:
 
 1. **Seed questions**: Drop a `<exam>_mock_exam.json` file into `features/exams/data/`.
 2. **Register exam**: Append an entry in `features/exams/data/exams.js` with metadata, domains, presets, and question bank import.
-3. **(Optional) Import template**: Populate the `importTemplate` array so the “Download template” button shows realistic scaffolding.
+3. **(Optional) Import template**: Populate the `importTemplate` array so the “Download prompt” button shows realistic scaffolding.
 
 Because the reducer, hooks, and UI all operate on the shared exam shape, new exams typically only require data changes.
 
