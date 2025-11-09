@@ -1,6 +1,5 @@
 import React from "react";
-import { render, screen, within, fireEvent, act } from "@testing-library/react";
-
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import App from "./App";
 import { sampleWeighted, sanitizeImportedQuestions } from "./utils/exam";
 
@@ -13,11 +12,12 @@ describe("App integration", () => {
         jest.useFakeTimers();
         render(<App />);
 
-        const quickCard = screen.getByText(/Quick Practice/i).closest("div");
-        const startButton = within(quickCard).getByRole("button", { name: /start/i });
+        // Use Testing Library queries only (no .closest)
+        const startButton = screen.getByRole("button", { name: /start/i });
         fireEvent.click(startButton);
 
         expect(screen.getByText("30:00")).toBeInTheDocument();
+
         const summary = screen.getByText(/Answered/i);
         expect(summary).toHaveTextContent(/Answered\s*0\s*\/\s*20/);
 

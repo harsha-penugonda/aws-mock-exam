@@ -1,70 +1,142 @@
-# Getting Started with Create React App
+# AWS Mock Exam
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An interactive web application for practicing AWS Cloud Practitioner Certification exam questions with timed sessions, domain-based filtering, and performance tracking.
+
+## Features
+
+- **Timed Exam Sessions**: Full-length (65 questions, 90 minutes) and quick practice (20 questions, 30 minutes) modes
+- **Domain-Based Questions**: Weighted sampling across AWS Cloud Practitioner domains:
+  - Cloud Concepts (24%)
+  - Security and Compliance (30%)
+  - Cloud Technology and Services (34%)
+  - Billing, Pricing, and Support (12%)
+- **Performance Tracking**: View detailed statistics by domain, review exam history, and track progress
+- **Question Import**: Import custom questions via JSON template
+- **Review Mode**: Review all questions or filter by domain after completing an exam
+
+## Environment Requirements
+
+- **Node.js**: v16.x or higher (v18.x recommended)
+- **npm**: v8.x or higher
+- **Modern Browser**: Chrome, Firefox, Safari, or Edge (latest versions)
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd aws-mock-exam
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Initialize Husky (for pre-commit hooks):
+   ```bash
+   npm run prepare
+   ```
+
+## Development
+
+Start the development server:
+```bash
+npm start
+```
+
+The app will open at [http://localhost:3000](http://localhost:3000).
 
 ## Available Scripts
 
-In the project directory, you can run:
+- `npm start` - Start development server
+- `npm run build` - Create production build
+- `npm test` - Run tests in watch mode
+- `npm run test:coverage` - Run tests with coverage report
+- `npm run lint` - Run ESLint on source files
+- `npm run lint:fix` - Run ESLint and fix auto-fixable issues
+- `npm run verify:build` - Verify production build succeeds
 
-### `npm start`
+## Importing Custom Questions
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+You can import custom questions by uploading a JSON file that follows this template:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```json
+[
+  {
+    "id": "custom-1",
+    "domain": "Cloud Concepts",
+    "type": "single",
+    "question": "Which AWS pricing model is best for a workload with steady, predictable usage?",
+    "options": [
+      { "id": "a", "text": "On-Demand Instances" },
+      { "id": "b", "text": "Savings Plans" },
+      { "id": "c", "text": "Dedicated Hosts" },
+      { "id": "d", "text": "Spot Instances" }
+    ],
+    "correctOptionIds": ["b"],
+    "explanation": "Savings Plans provide cost savings for steady-state usage when you commit to consistent compute consumption.",
+    "difficulty": "medium"
+  }
+]
+```
 
-### `npm test`
+### Question Schema
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **id** (string, required): Unique identifier for the question
+- **domain** (string, required): One of: "Cloud Concepts", "Security and Compliance", "Cloud Technology and Services", "Billing, Pricing, and Support"
+- **type** (string, required): "single" for single-select or "multiple" for multi-select questions
+- **question** (string, required): The question text
+- **options** (array, required): Array of option objects, each with:
+  - **id** (string): Option identifier (e.g., "a", "b", "c", "d")
+  - **text** (string): Option text
+- **correctOptionIds** (array, required): Array of correct option IDs
+- **explanation** (string, optional): Explanation text shown during review
+- **difficulty** (string, optional): "easy", "medium", or "hard"
 
-### `npm run build`
+## Deployment
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Building for Production
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm run build
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This creates an optimized production build in the `build/` directory.
 
-### `npm run eject`
+### Deploying to Static Hosting
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The app can be deployed to any static hosting service:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Vercel**: Connect your repository and deploy automatically
+- **Netlify**: Drag and drop the `build/` folder or connect via Git
+- **AWS S3 + CloudFront**: Upload `build/` contents to an S3 bucket and configure CloudFront distribution
+- **GitHub Pages**: Use `gh-pages` package or GitHub Actions
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Environment Variables
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+No environment variables are required for basic functionality. The app stores exam history in browser local storage.
 
-## Learn More
+### Build Verification
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Before deploying, verify the production build:
+```bash
+npm run verify:build
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This ensures the build completes successfully and catches any issues early.
 
-### Code Splitting
+## Code Quality
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Pre-commit hooks (via Husky) automatically run:
+- ESLint checks (`npm run lint`)
+- Build verification (`npm run verify:build`)
 
-### Analyzing the Bundle Size
+To bypass hooks (not recommended):
+```bash
+git commit --no-verify
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## License
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[Add your license information here]

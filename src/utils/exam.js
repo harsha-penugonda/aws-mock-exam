@@ -1,4 +1,4 @@
-import { DOMAINS } from "../data/questions";
+import { DOMAINS } from "../data/exams";
 
 export function randomSample(source, count, random = Math.random) {
     const copy = [...source];
@@ -53,6 +53,26 @@ export function answersEqual(a = [], b = []) {
     return b.every((value) => aSet.has(value));
 }
 
+/**
+ * Determines if an answer is ready to be validated.
+ * For single-response questions: validates when an answer is selected.
+ * For multi-response questions: only validates when the user has selected
+ * the same number of options as required (to avoid premature incorrect marking).
+ *
+ * @param {Array} selected - Currently selected option IDs
+ * @param {Array} correctOptionIds - Required correct option IDs
+ * @param {string} questionType - 'single' or 'multi'
+ * @returns {boolean} True if the answer should be validated
+ */
+export function isAnswerReadyForValidation(selected = [], correctOptionIds = [], questionType) {
+    if (questionType === "single") {
+        // Single-response: validate immediately when an answer is selected
+        return selected.length > 0;
+    }
+    // Multi-response: only validate when user has selected the same number of options as required
+    return selected.length === correctOptionIds.length;
+}
+
 export function buildDomainStats(questions, answers) {
     const stats = DOMAINS.reduce((acc, domain) => {
         acc[domain.name] = { total: 0, correct: 0 };
@@ -81,7 +101,13 @@ export function calculateScore(questions, answers) {
     return { answered: answered.length, correct: correct.length, pct };
 }
 
+/**
+ * @deprecated Use validateQuestions from schemas/question.js instead.
+ * This function is kept for backward compatibility but should be migrated.
+ */
 export function sanitizeImportedQuestions(raw, { existingIds }) {
+    // Note: New code should use validateQuestions from schemas/question.js
+    // This legacy function is maintained for compatibility
     const validDomains = new Set(DOMAINS.map((d) => d.name));
     const accepted = [];
     const rejected = [];
