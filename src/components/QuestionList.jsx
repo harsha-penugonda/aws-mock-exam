@@ -16,7 +16,11 @@ export function QuestionList({
     timerLabel,
     score,
     onExportCSV,
+    onSubmitExam,
 }) {
+    const allAnswered = questions.length > 0 && score.answered === questions.length;
+    const canSubmit = allAnswered && !finished;
+
     return (
         <div className="space-y-4">
             {questions.map((question, index) => {
@@ -174,11 +178,24 @@ export function QuestionList({
                             </>
                         ) : (
                             <div className="text-sm text-slate-500 italic">
-                                Complete all questions to see your score
+                                Complete all questions and submit to see your score
                             </div>
                         )}
                     </div>
                     <div className="flex items-center gap-2">
+                        {!finished && (
+                            <button
+                                onClick={onSubmitExam}
+                                disabled={!canSubmit}
+                                className={`px-4 py-2 rounded-2xl text-white flex items-center gap-2 transition-colors ${
+                                    canSubmit
+                                        ? "bg-blue-600 hover:bg-blue-700"
+                                        : "bg-slate-400 cursor-not-allowed"
+                                }`}
+                            >
+                                Submit exam
+                            </button>
+                        )}
                         <button
                             onClick={onToggleTimer}
                             className="px-4 py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-2 transition-colors"

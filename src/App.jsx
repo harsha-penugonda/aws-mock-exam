@@ -124,17 +124,10 @@ export default function App() {
     );
 
     // Use secondsLeft from countdown hook for finished check
-    const finished =
-        secondsLeft === 0 ||
-        (examState.visibleQuestions.length > 0 &&
-            score.answered === examState.visibleQuestions.length);
-
-    // Update finished state when conditions change
-    useEffect(() => {
-        if (finished && examState.started && !examState.finished) {
-            dispatch({ type: EXAM_ACTIONS.FINISH_EXAM });
-        }
-    }, [finished, examState.started, examState.finished]);
+    const finished = examState.finished;
+    const allQuestionsAnswered =
+        examState.visibleQuestions.length > 0 &&
+        score.answered === examState.visibleQuestions.length;
 
     const incorrectQuestions = useMemo(() => {
         if (!finished) return [];
@@ -162,28 +155,28 @@ export default function App() {
     // Record attempt when exam finishes
     useEffect(() => {
         if (finished && examState.started && examState.visibleQuestions.length > 0) {
-            recordAttempt({
-                mode: examState.mode,
-                total: examState.visibleQuestions.length,
-                answered: score.answered,
-                correct: score.correct,
-                pct: score.pct,
-                durationSeconds: Math.max(0, elapsedSeconds),
-                minutesAllocated: examState.examMinutes,
-                domainStats,
-            });
-        }
-    }, [
-        finished,
-        examState.started,
-        examState.mode,
-        examState.visibleQuestions.length,
-        examState.examMinutes,
-        score,
-        elapsedSeconds,
-        domainStats,
-        recordAttempt,
-    ]);
+        recordAttempt({
+            mode: examState.mode,
+            total: examState.visibleQuestions.length,
+            answered: score.answered,
+            correct: score.correct,
+            pct: score.pct,
+            durationSeconds: Math.max(0, elapsedSeconds),
+            minutesAllocated: examState.examMinutes,
+            domainStats,
+        });
+    }
+}, [
+    finished,
+    examState.started,
+    examState.mode,
+    examState.visibleQuestions.length,
+    examState.examMinutes,
+    score,
+    elapsedSeconds,
+    domainStats,
+    recordAttempt,
+]);
 
     // Handlers
     function startExam(modeSelection) {
@@ -245,6 +238,12 @@ export default function App() {
 
     function toggleTimer() {
         dispatch({ type: EXAM_ACTIONS.TOGGLE_TIMER });
+    }
+
+    function submitExam() {
+        if (!examState.started || finished) return;
+        if (!allQuestionsAnswered) return;
+        dispatch({ type: EXAM_ACTIONS.FINISH_EXAM });
     }
 
     function handleReviewFilter(updates) {
@@ -359,9 +358,10 @@ export default function App() {
                             timerLabel={timerLabel}
                             score={score}
                             onExportCSV={exportCSV}
+                            onSubmitExam={submitExam}
                         />
 
-                        {finished && (
+                        {examState.finished && (
                             <>
                                 <ReviewPanel
                                     visibleQuestions={examState.visibleQuestions}
