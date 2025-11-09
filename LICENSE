@@ -1,0 +1,39 @@
+AWS PRACTICE EXAM STUDIO SOURCE-AVAILABLE LICENSE 1.0
+
+Copyright (c) 2024 AWS Practice Exam Studio Contributors
+
+All rights reserved except as expressly granted by this license.
+
+## 1. Definitions
+
+- **Licensed Work**: The AWS Practice Exam Studio source code, documentation, and assets contained in this repository and in derivative forks.
+- **You**: Any individual or legal entity exercising permissions granted by this license.
+
+## 2. Grant
+
+Subject to the terms below, You are granted a limited, non-exclusive, non-transferable, revocable license to:
+
+1. View, clone, and fork the Licensed Work for personal study, evaluation, or archival purposes.
+2. Modify the Licensed Work solely for (a) experimentation in non-production environments or (b) preparing contributions submitted back to this repository through a pull request.
+
+No other rights are granted. In particular, You may not use, copy, modify, host, or distribute the Licensed Work for commercial, production, or hosted-service purposes without prior written consent from the copyright holders.
+
+## 3. Redistribution
+
+You may not redistribute the Licensed Work or derivative works outside of this repository and your private forks, except as necessary to submit a contribution back to this repository. Any other redistribution requires explicit written permission.
+
+## 4. Contributions
+
+By submitting code, documentation, or other materials to this project, You grant the copyright holders a perpetual, irrevocable license to use, reproduce, prepare derivative works of, and distribute Your contribution as part of the Licensed Work under this license.
+
+## 5. Termination
+
+This license terminates automatically if You breach any of its terms. Upon termination You must delete all copies of the Licensed Work and derivative works in your possession. The copyright holders may reinstate the license in writing at their sole discretion.
+
+## 6. Disclaimer
+
+THE LICENSED WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE LICENSED WORK OR THE USE OR OTHER DEALINGS IN THE LICENSED WORK.
+
+## 7. Contact
+
+For commercial licensing or any uses outside this license, contact the maintainers at `opensource@aws-practice-exam.studio`.

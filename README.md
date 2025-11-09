@@ -140,4 +140,4 @@ git commit --no-verify
 
 ## License
 
-[Add your license information here]
+The source is available under the **AWS Practice Exam Studio Source-Available License 1.0**, which permits cloning and experimentation for personal study or preparing contributions, but forbids production or commercial use without written consent. See [`LICENSE`](LICENSE) for full terms or email `opensource@aws-practice-exam.studio` to discuss additional rights.
