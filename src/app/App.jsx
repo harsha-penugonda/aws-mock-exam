@@ -1,23 +1,26 @@
 import React, { useEffect, useMemo, useReducer, useState } from "react";
 import { Clock, RotateCcw } from "lucide-react";
 
-import { EXAMS, DEFAULT_EXAM_ID, getExamById } from "./data/exams";
-import { useCountdown } from "./hooks/useCountdown";
-import { useExamTimer } from "./hooks/useExamTimer";
-import { useImportQueue } from "./hooks/useImportQueue";
-import { useAttemptHistory } from "./hooks/useAttemptHistory";
-import { examReducer, EXAM_ACTIONS } from "./store/examReducer";
+import { useCountdown } from "../shared/hooks/useCountdown";
 import {
+    EXAMS,
+    DEFAULT_EXAM_ID,
+    getExamById,
+    useExamTimer,
+    useImportQueue,
+    useAttemptHistory,
+    examReducer,
+    EXAM_ACTIONS,
     sampleWeighted,
     shuffle,
     answersEqual,
     buildDomainStats,
     calculateScore,
-} from "./utils/exam";
-import { ExamConfigurator } from "./components/ExamConfigurator";
-import { QuestionList } from "./components/QuestionList";
-import { ReviewPanel } from "./components/ReviewPanel";
-import { AttemptHistory } from "./components/AttemptHistory";
+    ExamConfigurator,
+    QuestionList,
+    ReviewPanel,
+    AttemptHistory,
+} from "../features/exams";
 
 const REVIEW_ALL = "all";
 const DEFAULT_DOMAIN_NAME = getExamById(DEFAULT_EXAM_ID).domains[0]?.name || "";

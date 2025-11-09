@@ -54,6 +54,10 @@ The app will open at [http://localhost:3000](http://localhost:3000).
 - `npm run lint:fix` - Run ESLint and fix auto-fixable issues
 - `npm run verify:build` - Verify production build succeeds
 
+## Project Structure
+
+The codebase is organized by feature to keep exam-specific logic self-contained. The React shell lives in `src/app`, shared hooks/utilities live under `src/shared`, and everything related to AWS exam workflows (components, hooks, reducers, data, schemas, and utilities) is grouped inside `src/features/exams`. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for a visual map and guidelines on how to add new exams or extend the feature.
+
 ## Importing Custom Questions
 
 You can import custom questions by uploading a JSON file that follows this template (domains must match the exam you select in the UI):

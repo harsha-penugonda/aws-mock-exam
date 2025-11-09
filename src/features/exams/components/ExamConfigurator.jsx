@@ -33,6 +33,7 @@ export function ExamConfigurator({
                             <button
                                 onClick={() => onStartExam(preset.id)}
                                 className="px-4 py-2 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 transition-colors"
+                                aria-label={`Start ${preset.label}`}
                             >
                                 <Icon className="w-4 h-4" />
                                 Start
@@ -78,6 +79,7 @@ export function ExamConfigurator({
                     <button
                         onClick={() => onStartExam("domain")}
                         className="px-4 py-2 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2 transition-colors"
+                        aria-label="Start Domain Practice"
                     >
                         <Filter className="w-4 h-4" />
                         Start
@@ -109,6 +111,7 @@ export function ExamConfigurator({
                     <button
                         onClick={() => onStartExam("imported")}
                         className="px-4 py-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 transition-colors font-medium"
+                        aria-label="Start Imported Questions"
                     >
                         <Upload className="w-4 h-4" />
                         Start with Imported Questions

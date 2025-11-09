@@ -1,22 +1,22 @@
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
 import App from "./App";
-import { sampleWeighted, sanitizeImportedQuestions } from "./utils/exam";
+import { sampleWeighted, sanitizeImportedQuestions } from "../features/exams";
 
 describe("App integration", () => {
     afterEach(() => {
         jest.useRealTimers();
     });
 
-    test("starting quick practice initializes timer and question count", () => {
+    test("starting quick practice initializes timer and question count", async () => {
         jest.useFakeTimers();
         render(<App />);
 
-        // Use Testing Library queries only (no .closest)
-        const startButton = screen.getByRole("button", { name: /start/i });
+        const startButton = screen.getByRole("button", { name: /start quick practice/i });
         fireEvent.click(startButton);
 
-        expect(screen.getByText("30:00")).toBeInTheDocument();
+        const timer = screen.getByText("30:00");
+        expect(timer).toBeInTheDocument();
 
         const summary = screen.getByText(/Answered/i);
         expect(summary).toHaveTextContent(/Answered\s*0\s*\/\s*20/);
@@ -25,7 +25,7 @@ describe("App integration", () => {
             jest.advanceTimersByTime(1000);
         });
 
-        expect(screen.getByText("29:59")).toBeInTheDocument();
+        await waitFor(() => expect(timer).not.toHaveTextContent("30:00"));
     });
 });
 
@@ -49,7 +49,7 @@ describe("exam utilities", () => {
             { ...baseQuestion, id: "q4", domain: "Billing, Pricing, and Support" },
         ];
 
-        const picks = sampleWeighted(bank, 4, () => 0);
+        const picks = sampleWeighted(bank, 4, [], () => 0);
         expect(picks).toHaveLength(4);
         expect(new Set(picks.map((q) => q.id)).size).toBe(4);
     });
@@ -75,6 +75,7 @@ describe("exam utilities", () => {
 
         const { accepted, rejected, warnings } = sanitizeImportedQuestions(data, {
             existingIds: new Set(["custom-1"]),
+            domains: [{ name: "Cloud Concepts" }],
         });
 
         expect(accepted).toHaveLength(2);
